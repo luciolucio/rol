@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'net/imap'
 require 'openssl'
 require 'yaml'

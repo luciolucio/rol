@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 lines = File.new( ARGV[ 0 ] ).readlines
 
 line_match = /.*?\b(\d\d\/\d\d)\b\s+([\w\s\$-.]*?) ?(\d\d\/\d\d)?\s+(-?\d+,\d+).*/
