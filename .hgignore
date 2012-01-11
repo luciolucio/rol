@@ -1,0 +1,6 @@
+syntax: glob
+
+*~
+*.swp
+diffy
+config_local.y

@@ -16,3 +16,4 @@ imap.search( ["ALL"] ).each do | message_id |
 end
 
 imap.close
+
