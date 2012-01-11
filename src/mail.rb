@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# $Log$
 
 require 'net/imap'
 require 'openssl'
@@ -16,4 +17,5 @@ imap.search( ["ALL"] ).each do | message_id |
 end
 
 imap.close
+
 
