@@ -1,12 +1,9 @@
 lines = File.new( ARGV[ 0 ] ).readlines
 
-forbidden = [
-	"PAGAMENTO EFETUADO"
-]
-
 line_match = /.*?\b(\d\d\/\d\d)\b\s+([\w\s\$-.]*?) ?(\d\d\/\d\d)?\s+(-?\d+,\d+).*/
 
 data = []
+
 lines.each do | line |
 	if line_match.match( line )
 		scan = line.scan( line_match )[ 0 ]
@@ -14,8 +11,8 @@ lines.each do | line |
 			:data      => scan[ 0 ],
 			:descricao => scan[ 1 ],
 			:parcela   => scan[ 2 ],
-			:valor     => scan[ 3 ],
-		} ) if nil == forbidden.index( scan[ 1 ] )
+			:valor     => scan[ 3 ].gsub( ",", "." ).to_f,
+		} )
 	end
 end
 
