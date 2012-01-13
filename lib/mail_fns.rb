@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 
-require 'net/imap'
 require 'mail'
 require 'yaml'
 
@@ -11,35 +10,35 @@ module Rol
 		# Returns an array in which each item is a hash like so:
 		# { subject, body, html_body, attachments }
 		def MailFns.get_all
-			begin
-				config = YAML.load( File.new( 'config.y' ) )
-				all = []
+			config = YAML.load( File.new( 'config.y' ) )
+			all = []
 
-				imap = Net::IMAP.new( 'imap.gmail.com', 993, true, nil, false )
-				imap.login( config[ :user ], config[ :pass ] )
-				imap.select( 'Inbox' )
+			Mail.defaults do
+				retriever_method :imap, {
+					:address    => 'imap.gmail.com',
+					:port       => 993,
+					:enable_ssl => true,
+					:user_name  => config[ :user ],
+					:password   => config[ :pass ],
+				}
+			end
 
-				imap.search( [ "ALL" ] ).each do | message_id |
-					msg = imap.fetch( message_id, 'RFC822' )[ 0 ].attr[ 'RFC822' ]
-					mail = Mail.new( msg )
-					data = {
-						:subject => mail.subject,
-						:attachments => [],
-						:body => mail.body,
-						:html_body => mail.body,
-					}
+			Mail.all do | msg |
+				data = {
+					:subject     => msg.subject,
+					:attachments => [],
+					:body        => msg.body,
+					:html_body   => msg.body,
+				}
 
-					if( mail.multipart? )
-						data.merge! get_all_parts_flat( mail )
-					end
-
-					all.push( data )
+				if( msg.multipart? )
+					data.merge! get_all_parts_flat( msg )
 				end
 
-				all
-			ensure
-				imap.close unless imap.nil?
+				all.push( data )
 			end
+
+			all
 		end
 
 		private
