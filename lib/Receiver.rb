@@ -16,4 +16,4 @@ Mail.defaults do
 	}
 end
 
-puts Rol::MailFns.get_all
+puts Rol::MailFns::get_all
