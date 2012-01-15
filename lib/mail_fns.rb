@@ -1,27 +1,15 @@
 #!/usr/bin/ruby
 
 require 'mail'
-require 'yaml'
 
 module Rol
 	module MailFns
-		# E-mail library to deal with gmail's IMAP
+		# Mail functions to return simple hashes with email data
 
 		# Returns an array in which each item is a hash like so:
 		# { subject, body, html_body, attachments }
 		def MailFns.get_all
-			config = YAML.load( File.new( 'config.y' ) )
 			all = []
-
-			Mail.defaults do
-				retriever_method :imap, {
-					:address    => 'imap.gmail.com',
-					:port       => 993,
-					:enable_ssl => true,
-					:user_name  => config[ :user ],
-					:password   => config[ :pass ],
-				}
-			end
 
 			Mail.all do | msg |
 				data = {
