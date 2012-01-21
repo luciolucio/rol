@@ -12,36 +12,23 @@ module Rol
 			all = []
 
 			Mail.all do | msg |
+				body = msg.body.decoded
+				body = msg.text_part.body.decoded if msg.multipart?
+
+				html_body = msg.body.decoded
+				html_body = msg.html_part.body.decoded if msg.multipart?
+
 				data = {
 					:subject     => msg.subject,
-					:attachments => [],
-					:body        => msg.body.decoded,
-					:html_body   => msg.body.decoded,
+					:attachments => msg.attachments.collect { | a | a.body.decoded },
+					:body        => body,
+					:html_body   => html_body,
 				}
 
-				if( msg.multipart? )
-					data[ :body ]        = msg.text_part.body.decoded
-					data[ :html_body ]   = msg.html_part.body.decoded
-					data[ :attachments ] = get_attachments( msg )
-				end
-
-				all.push( data )
+				all << data
 			end
 
 			all
 		end
-
-		private
-
-		def MailFns.get_attachments( item )
-			data = []
-
-			item.attachments.each do | attachment |
-				data.push( attachment.body.decoded )
-			end
-
-			data
-		end
-
 	end
 end
