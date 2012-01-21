@@ -15,12 +15,14 @@ module Rol
 				data = {
 					:subject     => msg.subject,
 					:attachments => [],
-					:body        => msg.body,
-					:html_body   => msg.body,
+					:body        => msg.body.decoded,
+					:html_body   => msg.body.decoded,
 				}
 
 				if( msg.multipart? )
-					data.merge! get_all_parts_flat( msg )
+					data[ :body ]        = msg.text_part.body.decoded
+					data[ :html_body ]   = msg.html_part.body.decoded
+					data[ :attachments ] = get_attachments( msg )
 				end
 
 				all.push( data )
@@ -31,27 +33,11 @@ module Rol
 
 		private
 
-		# Returns each part of the given item as:
-		# { body, html_body, attachments }
-		def MailFns.get_all_parts_flat( item )
-			data = { :attachments => [] }
+		def MailFns.get_attachments( item )
+			data = []
 
-			item.parts.each do | part |
-				if( part.attachment? )
-					data[ :attachments ].push( part.body )
-				elsif( part.multipart? )
-					child_data = get_all_parts_flat( part )
-					attachments = child_data[ :attachments ]
-					data[ :attachments ].push( attachments ) unless attachments.empty?
-					data[ :body ] = child_data[ :body ]
-					data[ :html_body ] = child_data[ :html_body ]
-				elsif( part.content_type.start_with?( 'text/html' ) )
-					data[ :html_body ] = part.body
-				elsif( part.content_type.start_with?( 'text/plain' ) )
-					data[ :body ] = part.body
-				else
-					raise "Unsupported e-mail message. Non-multipart content type is %s." % [ part.content_type ]
-				end
+			item.attachments.each do | attachment |
+				data.push( attachment.body.decoded )
 			end
 
 			data
