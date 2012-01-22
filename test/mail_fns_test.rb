@@ -90,28 +90,34 @@ class TestMailFns < Test::Unit::TestCase
 
 	@@attachments_scenarios = [
 		{
-			:mail_scenarios => [ :simple, :simple_with_attachment ],
-			:expected_with => [ :simple_with_attachment ]
+			:mail_scenarios   => [ :simple, :simple_with_attachment ],
+			:expected_with    => [ :simple_with_attachment ],
+			:expected_without => [ :simple ],
 		},
 		{
-			:mail_scenarios => [ :simple, :html ],
-			:expected_with => []
+			:mail_scenarios   => [ :simple, :html ],
+			:expected_with    => [],
+			:expected_without => [ :simple, :html ],
 		},
 		{
-			:mail_scenarios => [ :html_with_attachment ],
-			:expected_with => [ :html_with_attachment ]
+			:mail_scenarios   => [ :html_with_attachment ],
+			:expected_with    => [ :html_with_attachment ],
+			:expected_without => [],
 		},
 		{
-			:mail_scenarios => [ :html_with_attachment, :simple_with_multiple_attachments ],
-			:expected_with => [ :html_with_attachment, :simple_with_multiple_attachments ]
+			:mail_scenarios   => [ :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_with    => [ :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_without => [],
 		},
 		{
-			:mail_scenarios => [ :simple_with_attachment, :simple, :html_with_attachment, :simple_with_multiple_attachments ],
-			:expected_with => [ :simple_with_attachment, :html_with_attachment, :simple_with_multiple_attachments ]
+			:mail_scenarios   => [ :simple_with_attachment, :simple, :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_with    => [ :simple_with_attachment, :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_without => [ :simple ],
 		},
 		{
-			:mail_scenarios => [],
-			:expected_with => []
+			:mail_scenarios   => [],
+			:expected_with    => [],
+			:expected_without => [],
 		},
 	]
 
@@ -149,21 +155,31 @@ class TestMailFns < Test::Unit::TestCase
 		end
 	end
 
-	def test_get_all_with_attachments
+	def test_get_all_with_and_without_attachments
 		@@attachments_scenarios.each do | scenario |
 			emails = scenario[ :mail_scenarios ]
 			         .collect { | item | @@mail_scenarios[ item ][ :email ] }
 
-			expected = scenario[ :expected_with ]
-			           .collect { | item | @@mail_scenarios[ item ][ :expected ] }
-			
+			expected_with = scenario[ :expected_with ]
+			                .collect { | item | @@mail_scenarios[ item ][ :expected ] }
+
+			expected_without = scenario[ :expected_without ]
+			                   .collect { | item | @@mail_scenarios[ item ][ :expected ] }
+
 			Mail::TestRetriever.emails = emails
-			all = Rol::MailFns.get_all_with_attachments
+			all_with_attachments    = Rol::MailFns.get_all_with_attachments
+			all_without_attachments = Rol::MailFns.get_all_without_attachments
 
 			puts "Testing retrieve with attachments: %s" % [ scenario[ :expected_with ] ]
-			assert( all.length == expected.length, "Everything is here [with attachments]" )
-			expected.each do | mail |
-				assert( all.include? mail )
+			assert( all_with_attachments.length == expected_with.length, "Everything is here [with attachments]" )
+			expected_with.each do | mail |
+				assert( all_with_attachments.include? mail )
+			end
+
+			puts "Testing retrieve without attachments: %s" % [ scenario[ :expected_without ] ]
+			assert( all_without_attachments.length == expected_without.length, "Everything is here [without attachments]" )
+			expected_without.each do | mail |
+				assert( all_without_attachments.include? mail )
 			end
 		end
 	end

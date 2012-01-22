@@ -37,5 +37,12 @@ module Rol
 				not msg[ :attachments ].empty?
 			end
 		end
+
+		# Returns same structure as get_all, but only those without attachments
+		def MailFns.get_all_without_attachments
+			get_all.select do | msg |
+				msg[ :attachments ].empty?
+			end
+		end
 	end
 end
