@@ -152,12 +152,12 @@ class TestMailFns < Test::Unit::TestCase
 
 	def test_get_all_with_attachments
 		@@attachments_scenarios.each do | scenario |
-			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
-				@@mail_scenarios[ item ][ :email ]
-			end
-
 			expected = scenario[ :expected_with ].collect do | item |
 				@@mail_scenarios[ item ][ :expected ]
+			end
+
+			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
+				@@mail_scenarios[ item ][ :email ]
 			end
 
 			assert_equal( expected, Rol::MailFns.get_all_with_attachments )
@@ -166,12 +166,12 @@ class TestMailFns < Test::Unit::TestCase
 
 	def test_get_all_without_attachments
 		@@attachments_scenarios.each do | scenario |
-			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
-				@@mail_scenarios[ item ][ :email ]
-			end
-
 			expected = scenario[ :expected_without ].collect do | item |
 				@@mail_scenarios[ item ][ :expected ]
+			end
+
+			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
+				@@mail_scenarios[ item ][ :email ]
 			end
 
 			assert_equal( expected, Rol::MailFns.get_all_without_attachments )
