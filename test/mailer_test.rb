@@ -1,8 +1,8 @@
-require_relative '../lib/mail_fns'
+require_relative '../lib/mailer'
 require 'mail'
 require 'test/unit'
 
-class TestMailFns < Test::Unit::TestCase
+class TestMailer < Test::Unit::TestCase
 	@@text = 'This is plain text'
 	@@html_text = '<h1>This is HTML</h1>'
 	@@html_content_type = 'text/html; charset=UTF-8'
@@ -136,7 +136,7 @@ class TestMailFns < Test::Unit::TestCase
 	def test_get_all
 		@@mail_scenarios.each do | description, data |
 			Mail::TestRetriever.emails = [ data[ :email ] ]
-			all = Rol::MailFns.get_all
+			all = Rol::Mailer.get_all
 
 			actual   = all[ 0 ]
 			expected = data[ :expected ]
@@ -150,7 +150,7 @@ class TestMailFns < Test::Unit::TestCase
 			expected = items.collect { | item | item[ :expected ] }
 
 			Mail::TestRetriever.emails = emails
-			all = Rol::MailFns.get_all
+			all = Rol::Mailer.get_all
 
 			assert_equal( expected, all, keys )
 		end
@@ -166,7 +166,7 @@ class TestMailFns < Test::Unit::TestCase
 				@@mail_scenarios[ item ][ :email ]
 			end
 
-			assert_equal( expected, Rol::MailFns.get_all_with_attachments )
+			assert_equal( expected, Rol::Mailer.get_all_with_attachments )
 		end
 	end
 
@@ -180,7 +180,7 @@ class TestMailFns < Test::Unit::TestCase
 				@@mail_scenarios[ item ][ :email ]
 			end
 
-			assert_equal( expected, Rol::MailFns.get_all_without_attachments )
+			assert_equal( expected, Rol::Mailer.get_all_without_attachments )
 		end
 	end
 end
