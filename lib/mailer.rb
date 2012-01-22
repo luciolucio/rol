@@ -4,7 +4,7 @@ require 'mail'
 
 module Rol
 	module Mailer
-		# Mail functions to return simple hashes with email data
+		# Mail functions to return simple hashes with email data and send emails
 
 		# Returns an array in which each item is a hash like so:
 		# { subject, body, html_body, attachments }
