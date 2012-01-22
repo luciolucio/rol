@@ -7,7 +7,7 @@ class TestMailFns < Test::Unit::TestCase
 	@@html_text = '<h1>This is HTML</h1>'
 	@@html_content_type = 'text/html; charset=UTF-8'
 
-	@@mail = {
+	@@mail_scenarios = {
 		:simple => {
 			:email => Mail.new do
 				body 'DEF'
@@ -33,6 +33,22 @@ class TestMailFns < Test::Unit::TestCase
 			},
 		},
 
+		:simple_with_multiple_attachments => {
+			:email => Mail.new do
+				text_part { body "" }
+				html_part { body "" }
+			end.tap do | m |
+				m.attachments[ 'file1.txt' ] = '123456'
+				m.attachments[ 'file2.txt' ] = '123457'
+			end,
+			:expected => {
+				:subject     => nil,
+				:body        => "",
+				:html_body   => "",
+				:attachments => [ '123456', '123457' ],
+			},
+		},
+
 		:simple_with_attachment => {
 			:email => Mail.new do
 				text_part { body "" }
@@ -44,7 +60,7 @@ class TestMailFns < Test::Unit::TestCase
 				:subject     => nil,
 				:body        => "",
 				:html_body   => "",
-				:attachments => ['123456'],
+				:attachments => [ '123456' ],
 			},
 		},
 
@@ -64,6 +80,41 @@ class TestMailFns < Test::Unit::TestCase
 		},
 	}
 
+	@@multiple_mail_scenarios = [
+			[ :simple, :html ],
+			[ :simple, :simple_with_attachment ],
+			[ :html_with_attachment, :simple_with_multiple_attachments, :html ],
+			@@mail_scenarios.keys,
+			[],
+	]
+
+	@@attachments_scenarios = [
+		{
+			:mail_scenarios => [ :simple, :simple_with_attachment ],
+			:expected_with => [ :simple_with_attachment ]
+		},
+		{
+			:mail_scenarios => [ :simple, :html ],
+			:expected_with => []
+		},
+		{
+			:mail_scenarios => [ :html_with_attachment ],
+			:expected_with => [ :html_with_attachment ]
+		},
+		{
+			:mail_scenarios => [ :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_with => [ :html_with_attachment, :simple_with_multiple_attachments ]
+		},
+		{
+			:mail_scenarios => [ :simple_with_attachment, :simple, :html_with_attachment, :simple_with_multiple_attachments ],
+			:expected_with => [ :simple_with_attachment, :html_with_attachment, :simple_with_multiple_attachments ]
+		},
+		{
+			:mail_scenarios => [],
+			:expected_with => []
+		},
+	]
+
 	def setup
 		Mail.defaults do
 			retriever_method :test
@@ -71,7 +122,7 @@ class TestMailFns < Test::Unit::TestCase
 	end
 
 	def test_get_all
-		@@mail.each do | description, data |
+		@@mail_scenarios.each do | description, data |
 			Mail::TestRetriever.emails = [ data[ :email ] ]
 			all = Rol::MailFns.get_all
 
@@ -80,6 +131,40 @@ class TestMailFns < Test::Unit::TestCase
 
 			print "[%s]\nExpected: %s\n  Actual: %s\n\n" % [ description.to_s, expected, actual ]
 			assert( actual == expected, description.to_s )
+		end
+
+		@@multiple_mail_scenarios.each do | keys |
+			items    = keys.collect { | item | @@mail_scenarios[ item ] }
+			emails   = keys.collect { | item | @@mail_scenarios[ item ][ :email ] }
+			expected = items.collect { | item | item[ :expected ] }
+
+			Mail::TestRetriever.emails = emails
+			all = Rol::MailFns.get_all
+
+			puts "Testing retrieve: %s" % [ keys ]
+			assert( all.length == expected.length, "Everything is here" )
+			expected.each do | mail |
+				assert( all.include? mail )
+			end
+		end
+	end
+
+	def test_get_all_with_attachments
+		@@attachments_scenarios.each do | scenario |
+			emails = scenario[ :mail_scenarios ]
+			         .collect { | item | @@mail_scenarios[ item ][ :email ] }
+
+			expected = scenario[ :expected_with ]
+			           .collect { | item | @@mail_scenarios[ item ][ :expected ] }
+			
+			Mail::TestRetriever.emails = emails
+			all = Rol::MailFns.get_all_with_attachments
+
+			puts "Testing retrieve with attachments: %s" % [ scenario[ :expected_with ] ]
+			assert( all.length == expected.length, "Everything is here [with attachments]" )
+			expected.each do | mail |
+				assert( all.include? mail )
+			end
 		end
 	end
 end

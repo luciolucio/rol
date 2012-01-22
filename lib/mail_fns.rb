@@ -30,5 +30,12 @@ module Rol
 
 			all
 		end
+
+		# Returns same structure as get_all, but only those with attachments
+		def MailFns.get_all_with_attachments
+			get_all.select do | msg |
+				not msg[ :attachments ].empty?
+			end
+		end
 	end
 end
