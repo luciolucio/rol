@@ -82,6 +82,7 @@ class TestMailFns < Test::Unit::TestCase
 
 	@@multiple_mail_scenarios = [
 			[ :simple, :html ],
+			[ :simple, :simple, :html ],
 			[ :simple, :simple_with_attachment ],
 			[ :html_with_attachment, :simple_with_multiple_attachments, :html ],
 			@@mail_scenarios.keys,
@@ -98,6 +99,11 @@ class TestMailFns < Test::Unit::TestCase
 			:mail_scenarios   => [ :simple, :html ],
 			:expected_with    => [],
 			:expected_without => [ :simple, :html ],
+		},
+		{
+			:mail_scenarios   => [ :simple, :simple, :html ],
+			:expected_with    => [],
+			:expected_without => [ :simple, :simple, :html ],
 		},
 		{
 			:mail_scenarios   => [ :html_with_attachment ],
