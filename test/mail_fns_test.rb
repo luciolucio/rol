@@ -135,8 +135,7 @@ class TestMailFns < Test::Unit::TestCase
 			actual   = all[ 0 ]
 			expected = data[ :expected ]
 
-			print "[%s]\nExpected: %s\n  Actual: %s\n\n" % [ description.to_s, expected, actual ]
-			assert( actual == expected, description.to_s )
+			assert_equal( expected, actual, description.to_s )
 		end
 
 		@@multiple_mail_scenarios.each do | keys |
@@ -147,40 +146,35 @@ class TestMailFns < Test::Unit::TestCase
 			Mail::TestRetriever.emails = emails
 			all = Rol::MailFns.get_all
 
-			puts "Testing retrieve: %s" % [ keys ]
-			assert( all.length == expected.length, "Everything is here" )
-			expected.each do | mail |
-				assert( all.include? mail )
-			end
+			assert_equal( expected, all, keys )
 		end
 	end
 
-	def test_get_all_with_and_without_attachments
+	def test_get_all_with_attachments
 		@@attachments_scenarios.each do | scenario |
-			emails = scenario[ :mail_scenarios ]
-			         .collect { | item | @@mail_scenarios[ item ][ :email ] }
-
-			expected_with = scenario[ :expected_with ]
-			                .collect { | item | @@mail_scenarios[ item ][ :expected ] }
-
-			expected_without = scenario[ :expected_without ]
-			                   .collect { | item | @@mail_scenarios[ item ][ :expected ] }
-
-			Mail::TestRetriever.emails = emails
-			all_with_attachments    = Rol::MailFns.get_all_with_attachments
-			all_without_attachments = Rol::MailFns.get_all_without_attachments
-
-			puts "Testing retrieve with attachments: %s" % [ scenario[ :expected_with ] ]
-			assert( all_with_attachments.length == expected_with.length, "Everything is here [with attachments]" )
-			expected_with.each do | mail |
-				assert( all_with_attachments.include? mail )
+			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
+				@@mail_scenarios[ item ][ :email ]
 			end
 
-			puts "Testing retrieve without attachments: %s" % [ scenario[ :expected_without ] ]
-			assert( all_without_attachments.length == expected_without.length, "Everything is here [without attachments]" )
-			expected_without.each do | mail |
-				assert( all_without_attachments.include? mail )
+			expected = scenario[ :expected_with ].collect do | item |
+				@@mail_scenarios[ item ][ :expected ]
 			end
+
+			assert_equal( expected, Rol::MailFns.get_all_with_attachments )
+		end
+	end
+
+	def test_get_all_without_attachments
+		@@attachments_scenarios.each do | scenario |
+			Mail::TestRetriever.emails = scenario[ :mail_scenarios ].collect do | item |
+				@@mail_scenarios[ item ][ :email ]
+			end
+
+			expected = scenario[ :expected_without ].collect do | item |
+				@@mail_scenarios[ item ][ :expected ]
+			end
+
+			assert_equal( expected, Rol::MailFns.get_all_without_attachments )
 		end
 	end
 end
