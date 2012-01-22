@@ -2,7 +2,7 @@
 
 require 'yaml'
 require 'mail'
-require_relative 'mail_fns' 
+require_relative 'mailer' 
 
 config = YAML.load( File.new( 'config.y' ) )
 
@@ -16,4 +16,4 @@ Mail.defaults do
 	}
 end
 
-puts Rol::MailFns::get_all
+puts Rol::Mailer.get_all
