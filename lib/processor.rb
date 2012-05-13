@@ -2,6 +2,7 @@
 
 require_relative 'mailer'
 require_relative 'parser'
+require_relative 'translator'
 
 module Rol
 	class Processor
@@ -10,9 +11,12 @@ module Rol
 			emails.each do | email |
 				email[ :attachments ].each do | contents |
 					parsed = Rol::Parser.parse( contents )
-					print parsed
-					# translated = Rol::Translator.translate( parsed )
-					# Rol::Store.store( translated )
+					translated = Rol::Translator.translate( parsed )
+					translated.each do | tx |
+						puts tx
+					end
+					# filtered = Rol::Filter.filter( translated )
+					# Rol::Store.store( filtered )
 				end
 			end
 		end
