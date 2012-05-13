@@ -2,8 +2,8 @@
 
 require 'yaml'
 require 'mail'
-require 'mailer' 
-require 'processor'
+require_relative 'mailer' 
+require_relative 'processor'
 
 config = YAML.load( File.new( 'config.y' ) )
 
