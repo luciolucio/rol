@@ -8,13 +8,14 @@ module Rol
 			results = []
 
 			data.split( "\n" ).each do | line |
-				if @@line_match.match( line )
-					scan = line.scan( @@line_match )[ 0 ]
+				matches = @@line_match.match( line )
+				if !matches.nil?
+					captures = matches.captures
 					results.push( {
-						:data      => scan[ 0 ],
-						:descricao => scan[ 1 ],
-						:parcela   => scan[ 2 ],
-						:valor     => scan[ 3 ].gsub( ".", "" ).gsub( ",", "." ).to_f,
+						:data      => captures[ 0 ],
+						:descricao => captures[ 1 ],
+						:parcela   => captures[ 2 ],
+						:valor     => captures[ 3 ].gsub( ".", "" ).gsub( ",", "." ).to_f,
 					} )
 				end
 			end
