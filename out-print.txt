@@ -1,0 +1,214 @@
+Return-Path: <cartaoitaupersonnalite@itau-unibanco.com.br>
+Received: by 10.60.137.229 with SMTP id ql5csp18141oeb; Wed, 09 Jan 2013 05:46:56 -0800
+Received: from servicos.itau.com.br (servicos.itau.com.br. [200.246.143.230]) by mx.google.com with ESMTP id s47si72430327yhb.119.2013.01.09.05.46.55; Wed, 09 Jan 2013 05:46:56 -0800
+Received: from mail pickup service by servicos.itau.com.br with Microsoft
+ SMTPSVC; Wed, 9 Jan 2013 11:46:52 -0200
+Date: Wed, 09 Jan 2013 11:46:52 -0200
+From: cartaoitaupersonnalite@itau-unibanco.com.br
+To: ROL.DADOS@GMAIL.COM
+Message-ID: <4E3AFAC061984680B260787125E0BB81@itau.corp.ihf>
+Subject: =?UTF-8?Q?=C3=9Altimas_transa=C3=A7=C3=B5es_realizadas_com_o?=
+ =?UTF-8?Q?_cart=C3=A3o?=
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_60D4AC_01CDEE5F.042AF3C0";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Delivered-To: rol.dados@gmail.com
+X-Received: by 10.236.48.8 with SMTP id u8mr75492220yhb.99.1357739216283; Wed,
+ 09 Jan 2013 05:46:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of
+ cartaoitaupersonnalite@itau-unibanco.com.br designates 200.246.143.230 as
+ permitted sender) client-ip=200.246.143.230;
+Authentication-Results: mx.google.com; spf=pass (google.com: domain of
+ cartaoitaupersonnalite@itau-unibanco.com.br designates 200.246.143.230 as
+ permitted sender) smtp.mail=cartaoitaupersonnalite@itau-unibanco.com.br
+thread-index: Ac3ub8ezQxu8IK32SDKtl75qXhLPCA==
+Thread-Topic: =?UTF-8?Q?=C3=9Altimas_transa=C3=A7=C3=B5es_realizadas_com_o?=
+ =?UTF-8?Q?_cart=C3=A3o?=
+X-Mailer: Microsoft CDO for Windows 2000
+Content-Class: urn:content-classes:message
+Importance: normal
+Priority: normal
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.3790.4913
+X-OriginalArrivalTime: 09 Jan 2013 13:46:52.0487 (UTC)
+ FILETIME=[C7D2BD70:01CDEE6F]
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_60D4AC_01CDEE5F.042AF3C0
+Date: Thu, 10 Jan 2013 00:45:50 -0300
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <50ee2b5e99793_16f4463bc08221c@Xaxado.mail>
+
+ =0D
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/header_visa.=0D=
+
+gif> 	=0D
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>=0D=
+
+LUCIO P DE ASSIS ,=0D
+=0D
+Para sua seguran=E7a, relacionamos abaixo, as =FAltimas transa=E7=F5es=0D=
+
+realizadas com o seu cart=E3o CARTAO PERSONNALITE VISA PLATINUM e de seus=
+=0D
+adicionais, caso possua:=0D
+=0D
+=0D
+=0D
+=0D
+Compras por meio do cart=E3o final ...8121 =0D
+=0D
+	=0D
+Dia	Estabelecimento	Valor	=0D
+07-01-2013	EXTRA 1341 SA	R$ 14,26 	=0D
+07-01-2013	R M R COM DE GAS SA	R$ 50,00 	=0D
+=0D
+A data de compra =E9 sempre a data em que recebemos a informa=E7=E3o do=0D=
+
+estabelecimento. Por isso, pode ser diferente da data em que voc=EA=0D
+realmente fez a compra.=0D
+=0D
+Para saber mais detalhes sobre as compras realizadas, consulte a fatura=0D=
+
+do seu cart=E3o no Bankline Personnalit=E9.=0D
+=0D
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>=0D=
+
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>=0D=
+
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/duvidas_visa=0D=
+
+.gif> =0D
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>=0D=
+
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/linha_visa.g=0D=
+
+if> 	=0D
+=0D
+O Banco Ita=FA garante o sigilo dos seus dados. Este =E9 um e-mail=0D
+autom=E1tico, n=E3o envie resposta. Para conhecer nossa Pol=EDtica de=0D
+Privacidade, acesse o site Ita=FA Personnalit=E9 e clique em "Seguran=E7a=
+ e=0D
+Privacidade".	=0D
+=0D
+ =0D
+<http://www.itau.com.br/itaumail/servicos/itaucard/sac_itaucard_person.g=0D=
+
+if> =0D
+=0D
+E-mail n=BA 339048151813536.	=0D
+=0D
+ =
+
+
+------=_NextPart_000_60D4AC_01CDEE5F.042AF3C0
+Date: Thu, 10 Jan 2013 00:45:50 -0300
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <50ee2b5e9babb_16f4463bc0823bb@Xaxado.mail>
+
+<html><head><title>Ita&uacute; Personnalit&eacute;</title><style type=3D"=
+text/css">.TCard1{ font-family:verdana; font-size:12; color:#000000; }.TC=
+ard2{ font-family:verdana; font-size:12; color:#000000; }</style></head><=
+body bgcolor=3D"White" leftmargin=3D"0" topmargin=3D"0"><div align=3D"cen=
+ter"><table width=3D"500" height=3D"100" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0"><tr><td><img src=3D"http://www.itau.com.br/itaumail/serv=
+icos/personnalite/visa/header_visa.gif" width=3D"500" height=3D"100" bord=
+er=3D"0"></td></tr></table><table width=3D"500" border=3D"0" cellspacing=3D=
+"0" cellpadding=3D"0"><tr><td width=3D"6"><img src=3D"http://www.itau.com=
+.br/itaumail/servicos/personnalite/visa/spacer.gif" width=3D"6" height=3D=
+"1" border=3D"0"></td><td valign=3D"top" width=3D"488"><font face=3D"Verd=
+ana, Arial, Helvetica, sans-serif" size=3D"2" color=3D"#666666"><p><br>LU=
+CIO P DE ASSIS                        ,</p><p>Para sua seguran&ccedil;a, =
+relacionamos abaixo, as &uacute;ltimas transa&ccedil;&otilde;es realizada=
+s com o seu cart&atilde;o <b>CARTAO PERSONNALITE VISA PLATINUM           =
+              </b> e de seus adicionais, caso possua:</p><p><br><table cl=
+ass=3D"TCard1" border=3D"0" ><tr><td colSpan=3D"2"><br>Compras por meio d=
+o cart&atilde;o final ...8121             <br><br></td></tr></table><tabl=
+e width=3D"100%" class=3D"TCard2" border=3D"0"><tr><td><b>Dia</b></td><td=
+><b>Estabelecimento</b></td><td><b>Valor</b></td></tr><tr><td>07-01-2013<=
+/td><td>EXTRA 1341             SA</td><td>R$     14,26                   =
+     </td></tr><tr><td>07-01-2013</td><td>R M R COM DE GAS       SA</td><=
+td>R$     50,00                        </td></tr></table></p><p>A data de=
+ compra &eacute; sempre a data em que recebemos a informa&ccedil;&atilde;=
+o do estabelecimento. Por isso, pode ser diferente da data em que voc&eci=
+rc; realmente fez a compra.</p><p>Para saber mais detalhes sobre as compr=
+as realizadas, consulte a fatura do seu cart&atilde;o no Bankline Personn=
+alit&eacute;.</p></font></td><td width=3D"6"><img src=3D"http://www.itau.=
+com.br/itaumail/servicos/personnalite/visa/spacer.gif" width=3D"6" height=
+=3D"1" border=3D"0"></td></tr><tr><td><img src=3D"http://www.itau.com.br/=
+itaumail/servicos/personnalite/visa/spacer.gif" width=3D"6" height=3D"1" =
+border=3D"0"></td><td valign=3D"top"><br><div align=3D"center"><img src=3D=
+"http://www.itau.com.br/itaumail/servicos/personnalite/visa/duvidas_visa.=
+gif" width=3D"452" height=3D"61" border=3D"0"></div></td><td><img src=3D"=
+http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif" wi=
+dth=3D"6" height=3D"1" border=3D"0"></td></tr><tr><td colspan=3D"3"><br><=
+img src=3D"http://www.itau.com.br/itaumail/servicos/personnalite/visa/lin=
+ha_visa.gif" width=3D"500" height=3D"4" border=3D"0"></td></tr><tr><td co=
+lspan=3D"3" valign=3D"top"><font face=3D"Verdana, Arial, Helvetica, sans-=
+serif" size=3D"1" color=3D"#666666"><br>O Banco Ita&uacute; garante o sig=
+ilo dos seus dados. Este &eacute; um e-mail autom&aacute;tico, n&atilde;o=
+ envie resposta. Para conhecer nossa Pol&iacute;tica de Privacidade, aces=
+se o site Ita&uacute; Personnalit&eacute; e clique em &quot;Seguran&ccedi=
+l;a e Privacidade&quot;.</font></td></tr><tr><td colspan=3D"3" valign=3D"=
+top"><br><img src=3D"http://www.itau.com.br/itaumail/servicos/itaucard/sa=
+c_itaucard_person.gif"><br><br><font face=3D"verdana, arial" size=3D"1" c=
+olor=3D"#808080">E-mail n&ordm; 339048151813536.</font></td></tr></table>=
+</div><p>&nbsp;</p></body></html>=
+
+
+------=_NextPart_000_60D4AC_01CDEE5F.042AF3C0--
+ 
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/header_visa.
+gif> 	
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>
+LUCIO P DE ASSIS ,
+
+Para sua segurança, relacionamos abaixo, as últimas transações
+realizadas com o seu cartão CARTAO PERSONNALITE VISA PLATINUM e de seus
+adicionais, caso possua:
+
+
+
+
+Compras por meio do cartão final ...8121 
+
+	
+Dia	Estabelecimento	Valor	
+07-01-2013	EXTRA 1341 SA	R$ 14,26 	
+07-01-2013	R M R COM DE GAS SA	R$ 50,00 	
+
+A data de compra é sempre a data em que recebemos a informação do
+estabelecimento. Por isso, pode ser diferente da data em que você
+realmente fez a compra.
+
+Para saber mais detalhes sobre as compras realizadas, consulte a fatura
+do seu cartão no Bankline Personnalité.
+
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/duvidas_visa
+.gif> 
+ <http://www.itau.com.br/itaumail/servicos/personnalite/visa/spacer.gif>
+<http://www.itau.com.br/itaumail/servicos/personnalite/visa/linha_visa.g
+if> 	
+
+O Banco Itaú garante o sigilo dos seus dados. Este é um e-mail
+automático, não envie resposta. Para conhecer nossa Política de
+Privacidade, acesse o site Itaú Personnalité e clique em "Segurança e
+Privacidade".	
+
+ 
+<http://www.itau.com.br/itaumail/servicos/itaucard/sac_itaucard_person.g
+if> 
+
+E-mail nº 339048151813536.	
+
+ 
