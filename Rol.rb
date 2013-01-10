@@ -17,8 +17,7 @@ Mail.defaults do
 	}
 end
 
-emails = Rol::Mailer.get_all_without_attachments
+emails = Rol::Mailer.get_all
 emails.each do | email |
 	puts email[ :body ]
-	puts email[ :html_body ]
 end
