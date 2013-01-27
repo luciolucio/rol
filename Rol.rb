@@ -26,17 +26,14 @@ end
 class Mailbox
 	@@session = nil
 
-	def self.initialize
+	def initialize( user, password )
 		if @@session.nil?
-			config = YAML.load( File.new( 'config.y' ) )
-			session = Gmail.new( config[ :user ], config[ :pass ] )
+			session = Gmail.new( user, password )
 			@@session = session
 		end
 	end
 
-	def self.get_all_unprocessed
-		self.initialize
-
+	def get_all_unprocessed
 		return @@session.mailbox( "unprocessed" ).emails(
 			:from => "itau-unibanco.com.br",
 		).collect { | m | Message.new( m ) }
@@ -89,8 +86,11 @@ def main
 	#}
 	#tags = tag_map[ estabelecimento ]
 
-	messages = Mailbox.get_all_unprocessed
-	messages = filter( messages )
+	config = YAML.load( File.new( 'config.y' ) )
+	user = config[ :user ]
+	password = config[ :pass ]
+	mbox = Mailbox.new( user, password )
+	messages = filter( mbox.get_all_unprocessed )
 
 	messages.each do | message |
 		parsed = parse( message )
