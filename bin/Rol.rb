@@ -2,43 +2,8 @@
 
 require 'yaml'
 require 'bigdecimal'
-require 'gmail'
-
-class Message
-	def initialize( message )
-		@message = message
-	end
-
-	def archive!
-		@message.move_to( "processed" )
-	end
-
-	# Delegate all other methods to the Mail message
-	def method_missing(*args, &block)
-		if block_given?
-			@message.send(*args, &block)
-		else
-			@message.send(*args)
-		end
-	end
-end
-
-class Mailbox
-	@@session = nil
-
-	def initialize( user, password )
-		if @@session.nil?
-			session = Gmail.new( user, password )
-			@@session = session
-		end
-	end
-
-	def get_all_unprocessed
-		return @@session.mailbox( "unprocessed" ).emails(
-			:from => "itau-unibanco.com.br",
-		).collect { | m | Message.new( m ) }
-	end
-end
+require_relative '../lib/message'
+require_relative '../lib/mailbox'
 
 def filter( messages )
 	messages.keep_if do | m |
@@ -86,7 +51,7 @@ def main
 	#}
 	#tags = tag_map[ estabelecimento ]
 
-	config = YAML.load( File.new( 'config.y' ) )
+	config = YAML.load( File.new( '../config/config.y' ) )
 	user = config[ :user ]
 	password = config[ :pass ]
 	mbox = Mailbox.new( user, password )

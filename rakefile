@@ -4,8 +4,8 @@ require 'rake/testtask'
 task :default => [ :test ]
 
 task :config do
-	if File.exists?( "config_local.y" )
-		config = File.new( "config_local.y" ).read
+	if File.exists?( "config/config_local.y" )
+		config = File.new( "config/config_local.y" ).read
 	else
 		puts( "No config_local.y found. Requesting config data." )
 
@@ -15,12 +15,12 @@ task :config do
 		print( "Enter password: " )
 		pass = gets
 
-		config = File.new( "config_template.y" ).read
+		config = File.new( "config/config_template.y" ).read
 		config = config.gsub( "<user>", user )
 		config = config.gsub( "<pass>", pass )
 	end
 
-	final_config = File.new( "config.y", "w" )
+	final_config = File.new( "config/config.y", "w" )
 	final_config.write( config )
 end
 
