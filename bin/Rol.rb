@@ -4,9 +4,10 @@ require 'yaml'
 require 'bigdecimal'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
+require_relative '../lib/expense'
 
 def filter( messages )
-	messages.keep_if do | m |
+	messages.select do | m |
 		m.subject.include? "ltimas trans" and m.subject.include? "realizadas com o cart"
 	end
 end
@@ -15,26 +16,26 @@ def parse( message )
 	parsed = [] 
 
 	full_text = message.text_part.body.decoded
-	bandeira = full_text.scan( /CARTAO PERSONNALITE (.*) PLATINUM/ )[ 0 ]
+	card_type = full_text.scan( /CARTAO PERSONNALITE (.*) PLATINUM/ ).first.first
 	lines = full_text.split( "\n" )
 
-	cartao_final = 0
+	card_no = 0
 
 	lines.each do | line |
-		numero = line.scan( /final ...(\d*)/ )[ 0 ]
-		if numero.nil? && cartao_final == 0
+		number = line.scan( /final ...(\d*)/ ).first
+		if number.nil? && card_no == 0
 			next
-		elsif !numero.nil?
-			cartao_final = numero
+		elsif !number.nil?
+			card_no = number.first
 		else
-			entrada = line.scan( /^(\d\d-\d\d-\d\d\d\d)\s+(.*?)\s+R\$\s([0-9,.]+).*$/ )[ 0 ]
-			if entrada.nil?
+			entry = line.scan( /^(\d\d-\d\d-\d\d\d\d)\s+(.*?)\s+R\$\s([0-9,.]+).*$/ ).first
+			if entry.nil?
 				next
 			else
-				data, estabelecimento, valor = entrada
-				data = Date.parse( data )
-				valor = BigDecimal.new( valor.gsub( ",", "virgula" ).gsub( ".", "," ).gsub( "virgula", "." ) )
-				result = { "bandeira" => bandeira, "cartao" => cartao_final, "data" => data, "estab" => estabelecimento, "valor" => valor }
+				date, seller, value = entry
+				date = Date.parse( date )
+				value = BigDecimal.new( value.gsub( ",", "virgula" ).gsub( ".", "," ).gsub( "virgula", "." ) )
+				result = Expense.new( card_type, card_no, date, seller, value )
 				parsed.push result
 			end
 		end
@@ -49,7 +50,7 @@ def main
 		#"R M R COM DE GAS SA" => [ "#gas" ],
 		#"RESTAURANTE CHOUPANA OL" => [ "#alimentacao", "#viagem" ],
 	#}
-	#tags = tag_map[ estabelecimento ]
+	#tags = tag_map[ seller ]
 
 	config = YAML.load( File.new( '../config/config.y' ) )
 	user = config[ :user ]
@@ -61,7 +62,7 @@ def main
 		parsed = parse( message )
 		message.archive!
 		parsed.each do | p |
-			puts p
+			puts p.inspect
 		end
 	end
 end
