@@ -1,14 +1,20 @@
 class Expense
 	@@tag_map = {
 		"EXTRA 1341 SA"           => [ "#mercado", "#extraitaim" ],
-		"R M R COM DE GAS SA"     => [ "#gas"                    ],
+		"R M R COM DE GAS SA"     => [ "#gas", "#ocasional" ],
 		"RESTAURANTE CHOUPANA OL" => [ "#alimentacao", "#viagem" ],
+		"NETFLIX SA"              => [ "#netflix", "#diversao" ],
+		"LINS SUSHI BAR SA"       => [ "#alimentacao", "#alimentacaoforadecasa" ],
+		"B B B SA"                => [ "#casa", "#ocasional" ],
 	}
 
 	@@description_map = {
 		"EXTRA 1341 SA"           => "Extra Itaim",
 		"R M R COM DE GAS SA"     => "Gas",
 		"RESTAURANTE CHOUPANA OL" => "Restaurante em Recife",
+		"NETFLIX SA"              => "Netflix",
+		"LINS SUSHI BAR SA"       => "Sushibar perto do Theatro S. Pedro",
+		"B B B SA"                => "Bom Bonito Barato - Sabara",
 	}
 
 	attr_reader :card_type, :card_no, :date, :seller, :value
