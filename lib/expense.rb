@@ -15,6 +15,30 @@ class Expense
 		"#<#{self.class}:#{self.object_id}, #{@card_type} #{@card_no} #{@date} #{self.description} %.2f #{self.tags}>" % @value
 	end
 
+	def mush
+		str = card_type.to_s + card_no.to_s + date.to_s + seller.to_s + value.to_s
+
+		t = 0
+		str.each_byte.with_index do | i, b | t += i * b end
+		t.to_s
+	end
+
+	def id
+		"E CRD %s %s" % [ @date, self.mush ]
+	end
+
+	def to_document
+		{
+			"_id"      => self.id,
+			:type      => "expense",
+			:card_type => @card_type,
+			:card_no   => @card_no,
+			:date      => @date,
+			:seller    => @seller,
+			:value     => @value,
+		}
+	end
+
 	def description
 		map = Store.get( "Map Description" )[ :description_map ]
 		map[ @seller ] || @seller
@@ -31,6 +55,13 @@ class Expense
 				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
 				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
 			]
+		end
+
+		def from_store( name )
+			doc = Store.get( name )
+			throw( "Document %s not found" % name ) if doc.nil?
+
+			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] )
 		end
 
 		def parse( full_text )

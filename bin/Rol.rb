@@ -33,11 +33,20 @@ def main2
 	end
 end
 
-def main
+def main2
 	expenses = Expense.samples
 
 	expenses.each do | e |
-		puts e.inspect
+		Store.save( e )
+	end
+end
+
+def main
+	samples = Expense.samples
+
+	samples.each do | e |
+		new_e = Expense.from_store( e.id )
+		puts new_e.inspect
 	end
 end
 
