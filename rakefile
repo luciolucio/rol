@@ -23,19 +23,11 @@ task :config do
 		print( "Enter db name: " )
 		db_name = gets
 
-		print( "Enter db user: " )
-		db_user = gets
-
-		print( "Enter db password: " )
-		db_passwd = gets
-
 		config = File.new( "config/config_template.y" ).read
 		config = config.gsub( "<email_user>",   email_user   )
 		config = config.gsub( "<email_passwd>", email_passwd )
 		config = config.gsub( "<db_url>",       db_url       )
 		config = config.gsub( "<db_name>",      db_name      )
-		config = config.gsub( "<db_user>",      db_user      )
-		config = config.gsub( "<db_passwd>",    db_passwd    )
 	end
 
 	final_config = File.new( "config/config.y", "w" )
