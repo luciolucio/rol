@@ -65,6 +65,12 @@ class Expense
 			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] )
 		end
 
+		def filter( messages )
+			messages.select do | m |
+				m.subject.include? "ltimas trans" and m.subject.include? "realizadas com o cart"
+			end
+		end
+
 		def parse( full_text )
 			parsed = [] 
 
