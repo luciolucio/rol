@@ -75,4 +75,21 @@ task :install do
 	puts "- description map" if resp[ :ok ] == "true"
 
 	puts "Done creating initial documents"
+
+	puts "Creating views..."
+	unprocessed_triggers = {
+		:map => "function( doc ) {
+				if( doc.type == 'MailProcessorTrigger' && doc.status == 'unprocessed' )
+					emit( doc.created_at, doc.expense )
+			}",
+	}
+
+	db.save_doc( {
+		"_id"   => "_design/mailprocessor",
+		:views  => {
+			:unprocessed_triggers => unprocessed_triggers,
+		}
+	} )
+
+	puts "Done creating views"
 end

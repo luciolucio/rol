@@ -2,9 +2,10 @@
 
 require 'yaml'
 require 'bigdecimal'
+require_relative '../lib/expense'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
-require_relative '../lib/expense'
+require_relative '../lib/mailprocessortrigger'
 
 def main2
 	filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
@@ -22,6 +23,7 @@ def main2
 
 		expenses.each do | e |
 			Store.save( e )
+			Store.save( MailProcessorTrigger.new( e.id ) )
 		end
 
 		message.archive!
@@ -33,6 +35,7 @@ def main2
 
 	expenses.each do | e |
 		Store.save( e )
+		Store.save( MailProcessorTrigger.new( e.id ) )
 	end
 end
 
@@ -45,4 +48,4 @@ def main
 	end
 end
 
-main
+main2
