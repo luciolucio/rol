@@ -1,25 +1,6 @@
+require_relative 'store'
+
 class Expense
-	@@tag_map = {
-		"EXTRA 1341 SA"           => [ "#mercado", "#extraitaim" ],
-		"R M R COM DE GAS SA"     => [ "#gas", "#eventuais" ],
-		"RESTAURANTE CHOUPANA OL" => [ "#alimentacao", "#viagem" ],
-		"NETFLIX SA"              => [ "#netflix", "#diversao" ],
-		"LINS SUSHI BAR SA"       => [ "#alimentacao", "#alimentacaoforadecasa" ],
-		"B B B SA"                => [ "#casa", "#eventuais" ],
-		"LJ AMERICANAS"           => [ "#eventuais" ],
-	}
-
-	@@description_map = {
-		"EXTRA 1341 SA"           => "Extra Itaim",
-		"R M R COM DE GAS SA"     => "Gas",
-		"RESTAURANTE CHOUPANA OL" => "Restaurante em Recife",
-		"NETFLIX SA"              => "Netflix",
-		"LINS SUSHI BAR SA"       => "Sushibar perto do Theatro S. Pedro",
-		"B B B SA"                => "Bom Bonito Barato - Sabara",
-		"LJ AMERICANAS"           => "Lojas Americanas Pipocation",
-		"POLTRONAS X"             => "Poltronas equis",
-	}
-
 	attr_reader :card_type, :card_no, :date, :seller, :value
 
 	def initialize( card_type, card_no, date, seller, value )
@@ -35,11 +16,13 @@ class Expense
 	end
 
 	def description
-		@@description_map[ @seller ] || @seller
+		map = Store.get( "Map Description" )[ :description_map ]
+		map[ @seller ] || @seller
 	end
 
 	def tags
-		@@tag_map[ @seller ] || []
+		map = Store.get( "Map Tag" )[ :tag_map ]
+		map[ @seller ] || []
 	end
 
 	class << self
