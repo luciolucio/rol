@@ -30,5 +30,11 @@ class Store
 
 			@@db.save_doc( doc )
 		end
+
+		def view( view_name )
+			init_db
+
+			@@db.view( view_name )
+		end
 	end
 end
