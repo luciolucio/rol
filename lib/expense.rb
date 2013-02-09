@@ -41,12 +41,12 @@ class Expense
 	end
 
 	def description
-		map = Store.get( "Map Description" )[ :description_map ]
+		map = Store.get( "Rol Description Map" )[ :description_map ]
 		map[ @seller ] || @seller
 	end
 
 	def tags
-		map = Store.get( "Map Tag" )[ :tag_map ]
+		map = Store.get( "Rol Tag Map" )[ :tag_map ]
 		map[ @seller ] || []
 	end
 

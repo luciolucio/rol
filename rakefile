@@ -55,13 +55,13 @@ task :install do
 	puts "Done creating database"
 
 	tag_map = {
-		"_id" => "Map Tag",
+		"_id" => "Rol Tag Map",
 		:type => "map",
 		:tag_map => {},
 	}
 
 	description_map = {
-		"_id" => "Map Description",
+		"_id" => "Rol Description Map",
 		:type => "map",
 		:description_map => {},
 	}
