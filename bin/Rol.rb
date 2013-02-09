@@ -28,7 +28,7 @@ def main2
 		#message.archive!
 
 		expenses.each do | e |
-			puts e.inspect
+			Store.save( e )
 		end
 	end
 end
