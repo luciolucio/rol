@@ -24,6 +24,7 @@ class Expense
 	end
 
 	def id
+		# TODO: collision digit
 		"E CRD %s %s" % [ @date, self.mush ]
 	end
 
