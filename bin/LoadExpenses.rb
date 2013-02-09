@@ -6,8 +6,9 @@ require_relative '../lib/expense'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
 require_relative '../lib/mailprocessortrigger'
+require_relative '../lib/store'
 
-def main2
+def main
 	filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
 	config = YAML.load( File.new( filename ) )
 	user = config[ :email_user ]
@@ -30,22 +31,4 @@ def main2
 	end
 end
 
-def main2
-	expenses = Expense.samples
-
-	expenses.each do | e |
-		Store.save( e )
-		Store.save( MailProcessorTrigger.new( e.id ) )
-	end
-end
-
-def main
-	samples = Expense.samples
-
-	samples.each do | e |
-		new_e = Expense.from_store( e.id )
-		puts new_e.inspect
-	end
-end
-
-main2
+main
