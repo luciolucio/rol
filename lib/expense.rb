@@ -3,16 +3,17 @@ require_relative 'store'
 class Expense
 	attr_reader :card_type, :card_no, :date, :seller, :value
 
-	def initialize( card_type, card_no, date, seller, value )
+	def initialize( card_type, card_no, date, seller, value, id = nil )
 		@card_type = card_type
 		@card_no = card_no
 		@date = date
 		@seller = seller
 		@value = value
+		@id = id unless id.nil? || !id.start_with?( self.implied_name )
 	end
 
 	def inspect
-		"#<#{self.class}:#{self.object_id}, #{@card_type} #{@card_no} #{@date} #{self.description} %.2f #{self.tags}>" % @value
+		"#<#{self.class}:#{self.object_id}, #{self.id} #{@card_type} #{@card_no} #{@date} #{self.description} %.2f #{self.tags.join( ' ' )}>" % @value
 	end
 
 	def mush
@@ -24,6 +25,10 @@ class Expense
 	end
 
 	def id
+		@id || self.implied_name
+	end
+
+	def implied_name
 		# TODO: collision digit
 		"E CRD %s %s" % [ @date, self.mush ]
 	end
@@ -62,7 +67,7 @@ class Expense
 			doc = Store.get( name )
 			throw( "Document %s not found" % name ) if doc.nil?
 
-			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] )
+			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ], doc[ "_id" ] )
 		end
 
 		def filter( messages )
