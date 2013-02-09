@@ -13,16 +13,18 @@ def main2
 	password = config[ :email_passwd ]
 
 	mbox = Mailbox.new( user, password )
-	messages = Expense.filter( mbox.get_all_unprocessed )
+	filter_func = Expense.method( "filter" )
+	messages = filter_func.call( mbox.get_all_unprocessed )
 
 	messages.each do | message |
 		full_text = message.text_part.body.decoded
 		expenses = Expense.parse( full_text )
-		#message.archive!
 
 		expenses.each do | e |
 			Store.save( e )
 		end
+
+		message.archive!
 	end
 end
 
