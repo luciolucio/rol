@@ -2,6 +2,9 @@ require 'couchrest'
 require 'rake/clean'
 require 'rake/testtask'
 require 'yaml'
+require_relative 'lib/expense'
+require_relative 'lib/store'
+require_relative 'lib/mailprocessortrigger'
 
 task :default => [ :test ]
 
@@ -78,10 +81,11 @@ task :install do
 
 	puts "Creating views..."
 	unprocessed_triggers = {
-		:map => "function( doc ) {
-				if( doc.type == 'MailProcessorTrigger' && doc.status == 'unprocessed' )
-					emit( doc.created_at, doc.expense )
-			}",
+		:map =>
+"function( doc ) {
+	if( doc.type == 'MailProcessorTrigger' && doc.status == 'unprocessed' )
+		emit( doc.created_at, doc.expense )
+}",
 	}
 
 	db.save_doc( {
@@ -92,4 +96,18 @@ task :install do
 	} )
 
 	puts "Done creating views"
+end
+
+task :samples do
+	puts "Creating samples..."
+
+	[
+		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
+		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
+	].each do | e |
+		Store.save( e )
+		Store.save( MailProcessorTrigger.new( e.id ) )
+	end
+
+	puts "Done"
 end

@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require_relative 'store'
 
 class Expense
@@ -56,13 +57,6 @@ class Expense
 	end
 
 	class << self
-		def samples
-			return [
-				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
-				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
-			]
-		end
-
 		def from_store( name )
 			doc = Store.get( name )
 			throw( "Document %s not found" % name ) if doc.nil?
