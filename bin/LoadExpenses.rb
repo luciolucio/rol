@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 
 require 'yaml'
-require 'bigdecimal'
 require_relative '../lib/expense'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
