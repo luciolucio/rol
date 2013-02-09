@@ -14,7 +14,8 @@ end
 
 
 def main2
-	config = YAML.load( File.new( '../config/config.y' ) )
+	filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
+	config = YAML.load( File.new( filename ) )
 	user = config[ :email_user ]
 	password = config[ :email_passwd ]
 

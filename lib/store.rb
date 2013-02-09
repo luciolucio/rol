@@ -7,7 +7,8 @@ class Store
 	class << self
 		def get( name )
 			if @@db.nil?
-				config = YAML.load( File.new( '../config/config.y' ) )
+				filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
+				config = YAML.load( File.new( filename ) )
 				couch = CouchRest.new( config[ :db_url ] )
 				@@db = couch.database( config[ :db_name ] )
 			end
