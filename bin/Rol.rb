@@ -13,10 +13,10 @@ def filter( messages )
 end
 
 
-def main
+def main2
 	config = YAML.load( File.new( '../config/config.y' ) )
-	user = config[ :user ]
-	password = config[ :pass ]
+	user = config[ :email_user ]
+	password = config[ :email_passwd ]
 
 	mbox = Mailbox.new( user, password )
 	messages = filter( mbox.get_all_unprocessed )
@@ -29,6 +29,14 @@ def main
 		expenses.each do | e |
 			puts e.inspect
 		end
+	end
+end
+
+def main
+	expenses = Expense.samples
+
+	expenses.each do | e |
+		puts e.inspect
 	end
 end
 

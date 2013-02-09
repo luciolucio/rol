@@ -1,11 +1,12 @@
 class Expense
 	@@tag_map = {
 		"EXTRA 1341 SA"           => [ "#mercado", "#extraitaim" ],
-		"R M R COM DE GAS SA"     => [ "#gas", "#ocasional" ],
+		"R M R COM DE GAS SA"     => [ "#gas", "#eventuais" ],
 		"RESTAURANTE CHOUPANA OL" => [ "#alimentacao", "#viagem" ],
 		"NETFLIX SA"              => [ "#netflix", "#diversao" ],
 		"LINS SUSHI BAR SA"       => [ "#alimentacao", "#alimentacaoforadecasa" ],
-		"B B B SA"                => [ "#casa", "#ocasional" ],
+		"B B B SA"                => [ "#casa", "#eventuais" ],
+		"LJ AMERICANAS"           => [ "#eventuais" ],
 	}
 
 	@@description_map = {
@@ -15,6 +16,8 @@ class Expense
 		"NETFLIX SA"              => "Netflix",
 		"LINS SUSHI BAR SA"       => "Sushibar perto do Theatro S. Pedro",
 		"B B B SA"                => "Bom Bonito Barato - Sabara",
+		"LJ AMERICANAS"           => "Lojas Americanas Pipocation",
+		"POLTRONAS X"             => "Poltronas equis",
 	}
 
 	attr_reader :card_type, :card_no, :date, :seller, :value
@@ -40,6 +43,13 @@ class Expense
 	end
 
 	class << self
+		def samples
+			return [
+				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
+				Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
+			]
+		end
+
 		def parse( full_text )
 			parsed = [] 
 

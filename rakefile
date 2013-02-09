@@ -1,5 +1,7 @@
+require 'couchrest'
 require 'rake/clean'
 require 'rake/testtask'
+require 'yaml'
 
 task :default => [ :test ]
 
@@ -9,15 +11,31 @@ task :config do
 	else
 		puts( "No config_local.y found. Requesting config data." )
 
-		print( "Enter username: " )
-		user = gets
+		print( "Enter email username: " )
+		email_user = gets
 
-		print( "Enter password: " )
-		pass = gets
+		print( "Enter email password: " )
+		email_passwd = gets
+
+		print( "Enter db url (e.g. http://127.0.0.1:5984): " )
+		db_url = gets
+
+		print( "Enter db name: " )
+		db_name = gets
+
+		print( "Enter db user: " )
+		db_user = gets
+
+		print( "Enter db password: " )
+		db_passwd = gets
 
 		config = File.new( "config/config_template.y" ).read
-		config = config.gsub( "<user>", user )
-		config = config.gsub( "<pass>", pass )
+		config = config.gsub( "<email_user>",   email_user   )
+		config = config.gsub( "<email_passwd>", email_passwd )
+		config = config.gsub( "<db_url>",       db_url       )
+		config = config.gsub( "<db_name>",      db_name      )
+		config = config.gsub( "<db_user>",      db_user      )
+		config = config.gsub( "<db_passwd>",    db_passwd    )
 	end
 
 	final_config = File.new( "config/config.y", "w" )
@@ -30,4 +48,39 @@ end
 
 Rake::TestTask.new( :test ) do | t |
 	t.pattern = 'test/*_test.rb'
+end
+
+task :install do
+	#rake config
+
+	config = YAML.load( File.new( 'config/config.y' ) )
+	couch = CouchRest.new( config[ :db_url ] )
+
+	puts "Creating database..."
+	db = couch.database( config[ :db_name ] )
+	db.delete! rescue nil
+	db = couch.create_db( config[ :db_name ] )
+	puts "Done creating database"
+
+	tag_map = {
+		"_id" => "Map Tag",
+		:type => "map",
+		:tag_map => {},
+	}
+
+	description_map = {
+		"_id" => "Map Description",
+		:type => "map",
+		:description_map => {},
+	}
+
+	puts "Creating initial documents..."
+
+	resp = db.save_doc( tag_map )
+	puts "- tag map" if resp[ :ok ] == "true"
+
+	resp = db.save_doc( description_map )
+	puts "- description map" if resp[ :ok ] == "true"
+
+	puts "Done creating initial documents"
 end
