@@ -4,7 +4,7 @@ class Message
 	end
 
 	def archive!
-		@message.move_to( "processed" )
+		@message.move_to( "rol-processed" )
 	end
 
 	# Delegate all other methods to the Mail message

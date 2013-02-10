@@ -11,7 +11,7 @@ class Mailbox
 	end
 
 	def get_all_unprocessed
-		return @@session.mailbox( "unprocessed" ).emails(
+		return @@session.mailbox( "rol-unprocessed" ).emails(
 			:from => "itau-unibanco.com.br",
 		).collect { | m | Message.new( m ) }
 	end

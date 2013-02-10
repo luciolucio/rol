@@ -1,4 +1,5 @@
 require 'couchrest'
+require 'gmail'
 require 'rake/clean'
 require 'rake/testtask'
 require 'yaml'
@@ -9,8 +10,10 @@ require_relative 'lib/mailprocessortrigger'
 task :default => [ :test ]
 
 task :config do
-	if File.exists?( "config/config_local.y" )
-		config = File.new( "config/config_local.y" ).read
+	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
+
+	if File.exists?( filename )
+		config = File.new( filename ).read
 	else
 		puts( "No config_local.y found. Requesting config data." )
 
@@ -45,10 +48,11 @@ Rake::TestTask.new( :test ) do | t |
 	t.pattern = 'test/*_test.rb'
 end
 
-task :install do
-	#rake config
+task :installdb do
+	# TODO: depends on :config
 
-	config = YAML.load( File.new( 'config/config.y' ) )
+	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
+	config = YAML.load( File.new( filename ) )
 	couch = CouchRest.new( config[ :db_url ] )
 
 	puts "Creating database..."
@@ -96,6 +100,19 @@ task :install do
 	} )
 
 	puts "Done creating views"
+end
+
+task :installgmail do
+	# TODO: depends on :config
+
+	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
+	config = YAML.load( File.new( filename ) )
+	user = config[ :email_user ]
+	password = config[ :email_passwd ]
+
+	session = Gmail.new( user, password )
+	session.create_label( 'rol-unprocessed' )
+	session.create_label( 'rol-processed' )
 end
 
 task :samples do
