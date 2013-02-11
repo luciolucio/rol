@@ -84,15 +84,11 @@ Você precisa de um sistema de agendamento de processos, como por exemplo o cron 
 
 ## Roadmap
 
-### v0.1
+### v0.2
 
-* Interpretação das despesas nos alertas de e-mail Itaucard
-* Envio de e-mail com despesas
-* Recebimento de resposta ao e-mail com tags e alteração de descrições
-* E-mail sumário do dia
 * E-mail sumário de fim de mês
 
-### v0.2
+### v0.3
 
 * Colocar tags sem alterar o mapa
 * Mapa de tags e de descrições também por valor

@@ -1,0 +1,8 @@
+== 0.1
+
+* Major changes
+  * Rol is born. Features:
+  * Parses expenses on Itaucard email alerts
+  * Sends e-mails with expenses
+  * Parses replies to e-mails, saves tag and description changes
+  * Daily summary e-mail
