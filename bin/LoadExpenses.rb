@@ -23,9 +23,9 @@ def main
 
 		expenses.each do | e |
 			Store.save( e )
-			Store.save( MailProcessorTrigger.new( e.id ) )
 		end
 
+		Store.save( MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
 		message.archive!
 	end
 end

@@ -88,7 +88,7 @@ task :installdb do
 		:map =>
 "function( doc ) {
 	if( doc.type == 'MailProcessorTrigger' && doc.status == 'unprocessed' )
-		emit( doc.created_at, doc.expense )
+		emit( doc.created_at, doc.expenses )
 }",
 	}
 
@@ -121,9 +121,12 @@ task :samples do
 	[
 		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
 		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
-	].each do | e |
-		Store.save( e )
-		Store.save( MailProcessorTrigger.new( e.id ) )
+	].tap do | expenses |
+		expenses.each do | e |
+			Store.save( e )
+		end
+
+		Store.save( MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
 	end
 
 	puts "Done"
