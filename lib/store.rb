@@ -23,17 +23,11 @@ class Store
 
 		def save( doc )
 			init_db
-
-			if( doc.respond_to?( :to_document ) )
-				doc = doc.to_document
-			end
-
 			@@db.save_doc( doc )
 		end
 
 		def view( view_name )
 			init_db
-
 			@@db.view( view_name )
 		end
 	end

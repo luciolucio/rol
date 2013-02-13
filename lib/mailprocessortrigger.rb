@@ -1,44 +1,52 @@
-class MailProcessorTrigger
-	attr_accessor :status
+class MailProcessorTrigger < CouchRest::Document
+	def initialize( expense_ids )
+		super( {
+			:expense_ids => expense_ids,
+			:status      => :unprocessed,
+			:type        => self.class,
+		} )
 
-	def initialize( expense_ids, id = nil )
-		@expense_ids = expense_ids
-		@created_at = Time.new if id.nil?
-		@status = :unprocessed
-		@id = id unless id.nil? || !id.start_with?( self.id )
+		super( { :created_at => Time.new } ) if !self.has_key?( :created_at )
+
+		self.id = self.implied_name
 	end
 
 	def mush
-		str = @expense_ids.join( ' ' )
+		str = self[ :expense_ids ].join( ' ' )
 		t = 0
 		str.each_byte.with_index do | i, b | t += i * b end
 		t.to_s
 	end
 
-	def id
-		"MPT %s %s" % [ @expense_ids.size, self.mush ]
+	def status=( status )
+		self[ :status ] = status
+	end
+
+	def implied_name
+		"MPT %s %s" % [ self[ :expense_ids ].size, self.mush ]
 	end
 
 	def expenses
-		@expense_ids.map { | id | Expense.from_store( id ) }
-	end
-
-	def to_document
-		{
-			"_id"       => self.id,
-			:created_at => @created_at,
-			:expenses   => @expense_ids,
-			:status     => @status,
-			:type       => self.class,
-		}
+		self[ :expense_ids ].map { | id | Expense.from_store( id ) }
 	end
 
 	class << self
 		def get( type )
+			all = []
+
 			if type == :unprocessed
-				Store.view( "mailprocessor/unprocessed_triggers" )[ "rows" ].map do | t |
-					MailProcessorTrigger.new( t[ "value" ], t[ "_id" ] )
+				Store.view( "mailprocessor/unprocessed_triggers" )[ "rows" ].map do | row |
+					t = Store.get( row[ "id" ] )
+
+					result = MailProcessorTrigger.new( t[ :expense_ids ] )
+					result.id = t.id
+					result[ "_rev" ] = t.rev
+					result.status = t[ :status ]
+
+					all.push result
 				end
+
+				all
 			end
 		end
 	end

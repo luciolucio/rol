@@ -1,67 +1,55 @@
 require 'bigdecimal'
 require_relative 'store'
 
-class Expense
-	attr_reader :card_type, :card_no, :date, :seller, :value
-
-	def initialize( card_type, card_no, date, seller, value, id = nil )
-		@card_type = card_type
-		@card_no = card_no
-		@date = date
-		@seller = seller
-		@value = value
-		@id = id unless id.nil? || !id.start_with?( self.implied_name )
-	end
-
+class Expense < CouchRest::Document
 	def inspect
-		"#<#{self.class}:#{self.object_id}, #{self.id} #{@card_type} #{@card_no} #{@date} #{self.description} %.2f #{self.tags.join( ' ' )}>" % @value
+		"#<#{self.class}:#{self.object_id}, #{self.id} #{self[ :card_type ]} #{self[ :card_no ]} #{self[ :date ]} #{self.description} %.2f #{self.tags.join( ' ' )}>" % self[ :value ]
 	end
 
 	def mush
-		str = card_type.to_s + card_no.to_s + date.to_s + seller.to_s + value.to_s
+		str = self[ :card_type ].to_s + self[ :card_no ].to_s + self[ :date ].to_s + self[ :seller ].to_s + self[ :value ].to_s
 
 		t = 0
 		str.each_byte.with_index do | i, b | t += i * b end
 		t.to_s
 	end
 
-	def id
-		@id || self.implied_name
-	end
-
 	def implied_name
 		# TODO: collision digit
-		"E CRD %s %s" % [ @date, self.mush ]
-	end
-
-	def to_document
-		{
-			"_id"      => self.id,
-			:type      => "expense",
-			:card_type => @card_type,
-			:card_no   => @card_no,
-			:date      => @date,
-			:seller    => @seller,
-			:value     => @value,
-		}
+		"E CRD %s %s" % [ self[ :date ], self.mush ]
 	end
 
 	def description
 		map = Store.get( "Rol Description Map" )[ :description_map ]
-		map[ @seller ] || @seller
+		map[ self[ :seller ] ] || self[ :seller ]
 	end
 
 	def tags
 		map = Store.get( "Rol Tag Map" )[ :tag_map ]
-		map[ @seller ] || []
+		map[ self[ :seller ] ] || []
+	end
+
+	def initialize( card_type, card_no, date, seller, value )
+		super( {
+			:card_type => card_type,
+			:card_no   => card_no,
+			:date      => date,
+			:seller    => seller,
+			:value     => value,
+			:type      => self.class,
+		} )
+
+		self.id = self.implied_name
 	end
 
 	class << self
 		def from_store( name )
 			doc = Store.get( name )
-			throw( "Document %s not found" % name ) if doc.nil?
+			raise "Document %s not found" % name if doc.nil?
 
-			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ], doc[ "_id" ] )
+			e = Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] )
+			e.id = doc.id
+			e[ "_rev" ] = doc.rev
 		end
 
 		def filter( messages )
