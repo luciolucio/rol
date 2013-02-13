@@ -6,6 +6,7 @@ class MailProcessorTrigger < CouchRest::Document
 			:type        => self.class,
 		} )
 
+		# FIXME: created_at is being updated in the db at each update
 		super( { :created_at => Time.new } ) if !self.has_key?( :created_at )
 
 		self.id = self.implied_name
