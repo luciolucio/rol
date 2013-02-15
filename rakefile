@@ -10,7 +10,7 @@ require_relative 'lib/mailprocessortrigger'
 task :default => [ :test ]
 
 task :config do
-	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
+	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config_local.y'
 
 	if File.exists?( filename )
 		config = File.new( filename ).read
@@ -36,8 +36,10 @@ task :config do
 		config = config.gsub( "<db_name>",      db_name      )
 	end
 
-	final_config = File.new( "config/config.y", "w" )
-	final_config.write( config )
+	output_filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
+	File.open( output_filename, "w" ) do | final |
+		final.write( config )
+	end
 end
 
 task :clean do
@@ -48,8 +50,8 @@ Rake::TestTask.new( :test ) do | t |
 	t.pattern = 'test/*_test.rb'
 end
 
-task :installdb do
-	# TODO: depends on :config
+task :installdb => [ :config ] do
+	puts "Installing db"
 
 	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
 	config = YAML.load( File.new( filename ) )
@@ -102,8 +104,8 @@ task :installdb do
 	puts "Done creating views"
 end
 
-task :installgmail do
-	# TODO: depends on :config
+task :installgmail => [ :config ] do
+	puts "Creating gmail labels"
 
 	filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.y'
 	config = YAML.load( File.new( filename ) )
@@ -115,7 +117,11 @@ task :installgmail do
 	session.create_label( 'rol-processed' )
 end
 
-task :samples do
+task :install => [ :installdb, :installgmail ] do
+	puts "Installed"
+end
+
+task :samples => [ :installdb ] do
 	puts "Creating samples..."
 
 	[

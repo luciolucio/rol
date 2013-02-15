@@ -2,12 +2,10 @@ class MailProcessorTrigger < CouchRest::Document
 	def initialize( expense_ids )
 		super( {
 			:expense_ids => expense_ids,
+			:created_at  => Time.new,
 			:status      => :unprocessed,
 			:type        => self.class,
 		} )
-
-		# FIXME: created_at is being updated in the db at each update
-		super( { :created_at => Time.new } ) if !self.has_key?( :created_at )
 
 		self.id = self.implied_name
 	end
@@ -41,6 +39,7 @@ class MailProcessorTrigger < CouchRest::Document
 
 					result = MailProcessorTrigger.new( t[ :expense_ids ] )
 					result.id = t.id
+					result[ :created_at ] = t[ :created_at ]
 					result[ "_rev" ] = t.rev
 					result.status = t[ :status ]
 
