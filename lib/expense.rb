@@ -6,6 +6,22 @@ class Expense < CouchRest::Document
 		"#<#{self.class}:#{self.object_id}, #{self.id} #{self[ :card_type ]} #{self[ :card_no ]} #{self[ :date ]} #{self.description} %.2f #{self.tags.join( ' ' )}>" % self[ :value ]
 	end
 
+	def card_type
+		self[ :card_type ]
+	end
+
+	def card_no
+		self[ :card_no ]
+	end
+
+	def date
+		self[ :date ]
+	end
+
+	def value
+		self[ :value ]
+	end
+
 	def mush
 		str = self[ :card_type ].to_s + self[ :card_no ].to_s + self[ :date ].to_s + self[ :seller ].to_s + self[ :value ].to_s
 
@@ -47,9 +63,10 @@ class Expense < CouchRest::Document
 			doc = Store.get( name )
 			raise "Document %s not found" % name if doc.nil?
 
-			e = Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] )
-			e.id = doc.id
-			e[ "_rev" ] = doc.rev
+			Expense.new( doc[ :card_type ], doc[ :card_no ], Date.parse( doc[ :date ] ), doc[ :seller ], doc[ :value ] ).tap do | e |
+				e.id = doc.id
+				e[ "_rev" ] = doc.rev
+			end
 		end
 
 		def filter( messages )

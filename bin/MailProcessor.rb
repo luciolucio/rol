@@ -13,7 +13,7 @@ def main
 	
 	triggers.each do | t |
 		# TODO: think about the best way to send this dependency into OutgoingMessage. Is this the best way?
-		message = OutgoingMessage.new( t.expenses, self.method( "send_method" ) )
+		message = OutgoingMessage.new( t.id, t.expenses, self.method( "send_method" ) )
 		message.send!
 
 		t.status = :reported

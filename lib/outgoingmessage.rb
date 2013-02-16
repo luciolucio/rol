@@ -1,7 +1,8 @@
 class OutgoingMessage < Message
-	def initialize( expenses, send_method )
+	def initialize( id, expenses, send_method )
 		throw "Need some expenses to send!" if expenses.empty?
 
+		@id = id
 		@expenses = expenses
 		@send_method = send_method
 	end
@@ -14,10 +15,15 @@ class OutgoingMessage < Message
 	end
 
 	def subject
-		"Subject"
+		"Expenses - #{@id}"
 	end
 
 	def textonly
-		"Textonly"
+		result = ""
+		@expenses.each do | e |
+			result += "%s %s\n%s\n%s\n%s\nTags: %s\n\n" % [ e.card_type, e.card_no, e.date, e.description, e.value, e.tags.join( " " ) ]
+		end
+
+		result
 	end
 end
