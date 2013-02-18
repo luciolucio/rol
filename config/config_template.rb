@@ -8,4 +8,6 @@ Configuration.for( "config" ) do
 		login    "<gmail_user>"
 		password "<gmail_password>"
 	}
+
+	email "<email>"
 end

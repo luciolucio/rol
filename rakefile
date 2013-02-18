@@ -29,11 +29,15 @@ task :config do
 		print( "Enter db name: " )
 		db_name = gets
 
+		print( "Enter your email: " )
+		email = gets
+
 		config = File.new( "config/config_template.rb" ).read
 		config = config.gsub( "<email_user>",   email_user   )
 		config = config.gsub( "<email_passwd>", email_passwd )
 		config = config.gsub( "<db_url>",       db_url       )
 		config = config.gsub( "<db_name>",      db_name      )
+		config = config.gsub( "<email>",        email        )
 	end
 
 	output_filename = File.expand_path( File.dirname(__FILE__) ) + '/config/config.rb'
