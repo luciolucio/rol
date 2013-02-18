@@ -3,5 +3,5 @@ syntax: glob
 *~
 *.swp
 diffy
-config_local.y
-config.y
+config_local.rb
+config.rb
