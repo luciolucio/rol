@@ -5,7 +5,7 @@ Configuration.for( "config" ) do
 	}
 
 	gmail {
-		login    "<gmail_user>"
+		user     "<gmail_user>"
 		password "<gmail_password>"
 	}
 

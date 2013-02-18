@@ -15,4 +15,14 @@ class Mailbox
 			:from => "itau-unibanco.com.br",
 		).collect { | m | Message.new( m ) }
 	end
+
+	def deliver( to, subject, text_part )
+		@@session.deliver do
+			to to
+			subject subject
+			text_part do
+				body text_part
+			end
+		end
+	end
 end

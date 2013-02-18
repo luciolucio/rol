@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+require 'configuration'
 require_relative '../lib/expense'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
@@ -21,7 +22,13 @@ def main
 end
 
 def send_method( subject, text_part )
-	puts "Sending email with subject '%s' and text_part as follows:\n%s\n\n" % [ subject, text_part ]
+	Configuration.path = File.dirname( __FILE__ ) + "/../config"
+	config = Configuration.load "config"
+	email = config.email
+	gmail = config.gmail
+
+	mbox = Mailbox.new( gmail.user, gmail.password )
+	mbox.deliver( config.email, subject, text_part )
 end
 
 main

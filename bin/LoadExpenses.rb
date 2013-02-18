@@ -12,7 +12,7 @@ def main
 	config = Configuration.load "config"
 	gmail = config.gmail
 
-	mbox = Mailbox.new( gmail.login, gmail.password )
+	mbox = Mailbox.new( gmail.user, gmail.password )
 	filter_func = Expense.method( "filter" )
 	messages = filter_func.call( mbox.get_all_unprocessed )
 
