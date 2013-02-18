@@ -1,5 +1,5 @@
+require 'configuration'
 require 'couchrest'
-require 'yaml'
 
 class Store
 	@@db = nil
@@ -7,10 +7,12 @@ class Store
 	class << self
 		def init_db
 			if @@db.nil?
-				filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
-				config = YAML.load( File.new( filename ) )
-				couch = CouchRest.new( config[ :db_url ] )
-				@@db = couch.database( config[ :db_name ] )
+				Configuration.path = File.dirname( __FILE__ ) + "/../config"
+				config = Configuration.load "config"
+				db = config.db
+
+				couch = CouchRest.new( db.url )
+				@@db = couch.database( db.name )
 			end
 		end
 

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require 'yaml'
+require 'configuration'
 require_relative '../lib/expense'
 require_relative '../lib/message'
 require_relative '../lib/mailbox'
@@ -8,12 +8,11 @@ require_relative '../lib/mailprocessortrigger'
 require_relative '../lib/store'
 
 def main
-	filename = File.expand_path( File.dirname(__FILE__) ) + '/../config/config.y'
-	config = YAML.load( File.new( filename ) )
-	user = config[ :email_user ]
-	password = config[ :email_passwd ]
+	Configuration.path = File.dirname( __FILE__ ) + "/../config"
+	config = Configuration.load "config"
+	gmail = config.gmail
 
-	mbox = Mailbox.new( user, password )
+	mbox = Mailbox.new( gmail.login, gmail.password )
 	filter_func = Expense.method( "filter" )
 	messages = filter_func.call( mbox.get_all_unprocessed )
 
