@@ -96,7 +96,7 @@ task :installdb => [ :config ] do
 	unprocessed_triggers = {
 		:map =>
 "function( doc ) {
-	if( doc.type == 'MailProcessorTrigger' && doc.status == 'unprocessed' )
+	if( doc.type == 'Rol::MailProcessorTrigger' && doc.status == 'unprocessed' )
 		emit( doc.created_at, doc.expense_ids )
 }",
 	}
@@ -130,14 +130,14 @@ task :samples => [ :installdb ] do
 	puts "Creating samples..."
 
 	[
-		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
-		Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
+		Rol::Expense.new( "VISA", "1315", Date.parse( "20130208" ), "LJ AMERICANAS", 15.8 ),
+		Rol::Expense.new( "VISA", "1315", Date.parse( "20130208" ), "POLTRONAS X", 15.7 ),
 	].tap do | expenses |
 		expenses.each do | e |
-			Store.save( e )
+			Rol::Store.save( e )
 		end
 
-		Store.save( MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
+		Rol::Store.save( Rol::MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
 	end
 
 	puts "Done"

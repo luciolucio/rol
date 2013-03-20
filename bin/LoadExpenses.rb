@@ -12,19 +12,19 @@ def main
 	config = Configuration.load "config"
 	gmail = config.gmail
 
-	mbox = Mailbox.new( gmail.user, gmail.password )
-	filter_func = Expense.method( "filter" )
+	mbox = Rol::Mailbox.new( gmail.user, gmail.password )
+	filter_func = Rol::Expense.method( "filter" )
 	messages = filter_func.call( mbox.get_all_unprocessed )
 
 	messages.each do | message |
 		full_text = message.text_part.body.decoded
-		expenses = Expense.parse( full_text )
+		expenses = Rol::Expense.parse( full_text )
 
 		expenses.each do | e |
-			Store.save( e )
+			Rol::Store.save( e )
 		end
 
-		Store.save( MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
+		Rol::Store.save( Rol::MailProcessorTrigger.new( expenses.map { | e | e.id } ) )
 		message.archive!
 	end
 end
