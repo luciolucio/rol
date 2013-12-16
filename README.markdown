@@ -2,7 +2,7 @@
 
 Rol foi feito para registrar e categorizar suas despesas automaticamente. Usando como base e-mails do seu banco, extratos de conta e de cartão de crédito, Rol interpreta essas informações e transforma em despesas individuais que você pode categorizar como quiser. Rol não tem uma interface na web, você interage com ele usando o seu e-mail. Rol não se conecta no seu banco nem tem acesso à sua conta, mas precisa de acesso aos seus e-mails. Se preferir, você pode criar uma conta de e-mail exclusiva para ele.
 
-Uma vez carregadas suas despesas, Rol lhe envia um e-mail pedindo para categorizá-las com tags e para mudar as descrições, que nem sempre são muito intuitivas (ex: "TV a cabo e Internet NET" e "Seguro do Peugeot" são bem melhores que "SISDEB NET SP", ou "PORTO SEGURO PORTO SEGU") e para fazer isso basta responder aos e-mails. Rol vai aprendendo as descrições e as categorias à medida que você faz isso pra que você precise categorizar cada vez menos. Se estiver certo, nem precisa responder ao e-mail.
+Uma vez carregadas as suas despesas, Rol lhe envia um e-mail pedindo para categorizá-las com tags e para mudar as descrições, que nem sempre são muito intuitivas (ex: "TV a cabo e Internet NET" e "Seguro do Peugeot" são bem melhores que "SISDEB NET SP", ou "PORTO SEGURO PORTO SEGU") e para fazer isso basta responder aos e-mails. Rol vai aprendendo as descrições e as categorias à medida que você faz isso pra que você precise categorizar cada vez menos. Se estiver certo, nem precisa responder ao e-mail.
 
 É permitido, e sugerido, que você categorize cada despesa com mais de uma tag. Desse jeito, um presente comprado para alguém pode ter por exemplo as categorias #presente e #eventuais, assim você consegue saber qual a quantidade de gastos eventuais naquele mês, e também pode saber quanto gastou com presentes.
 
@@ -12,7 +12,7 @@ Para armazenagem das despesas, Rol se utiliza da excelente [CouchDb](http://couc
 
 ## Homepage
 
-* [http://code.google.com/p/rol](http://code.google.com/p/rol)
+* [https://github.com/luciolucio/rol](https://github.com/luciolucio/rol)
 
 ## Autor
 
@@ -21,7 +21,7 @@ Para armazenagem das despesas, Rol se utiliza da excelente [CouchDb](http://couc
 ## Compatibilidade
 
 * Gmail
-* Alertas de e-mail Itaucard
+* Alertas de e-mail Chase
 
 ## Instalando
 
@@ -93,10 +93,9 @@ Você precisa de um sistema de agendamento de processos, como por exemplo o cron 
 * Colocar tags sem alterar o mapa
 * Mapa de tags e de descrições também por valor
 
-### Até a v1.0 - Itaú
+### Até a v1.0
 
-* Processar extrato do Itaucard em PDF para reconciliação
-* Processar despesas do extrato da conta Itaú em PDF ou talvez XLS ou talvez TXT
+* Processar extrato para reconciliação
 
 ### Algum dia
 
