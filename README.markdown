@@ -14,7 +14,7 @@ Rol is not very useful if you do not bank online or do not use credit and debit 
 
 rol -u user -p password
 
-# Licença
+# License
 
 (The MIT License)
 
