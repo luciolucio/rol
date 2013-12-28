@@ -9,7 +9,7 @@ module Rol
         results = /A \$(.*) (external transfer to (.*)|ATM withdrawal) on/.match(message)
       end
 
-      return @@nil_result if results.nil? || results.size < 3
+      return @@nil_result if results.nil?
 
       amount = results[1].to_f
       description = results[2] == 'ATM withdrawal' ? 'ATM Withdrawal' : results[3].strip
