@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-require 'test/unit'
 require_relative '../lib/rol'
+require 'test/unit'
 
 # Unit tests for parsing functionality,
 # including parsing emails and any
