@@ -6,9 +6,10 @@ It needs no access to your bank account, but will need access to an email accoun
 
 Rol is not very useful if you do not bank online or do not use credit and debit cards much.
 
-## First iteration
+## Roadmap
 
-* Read email alert from Chase, parse and output something to standard output
+* Read email alert from Chase, parse and output something to standard output - DONE
+* Start parsing dates
 
 ## Usage
 
