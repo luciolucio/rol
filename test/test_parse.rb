@@ -7,8 +7,8 @@ require 'test/unit'
 # including parsing emails and any
 # other format that we're able to parse
 
-class TestParse < Test::Unit::TestCase
-  def test_parse
+class TestChaseParser < Test::Unit::TestCase
+  def test_parse_debit_card_transaction
     run_parse_test_with(
       "This is an Alert to help manage your account ending in 6503.
 
@@ -16,7 +16,7 @@ class TestParse < Test::Unit::TestCase
       amount: 3.76, description: 'PIER 49 PIZZA - SALT')
   end
 
-  def test_parse_with_trailing_spaces
+  def test_parse_debit_card_with_trailing_spaces
     run_parse_test_with(
       "This is an Alert to help manage your account ending in 6503.
 
@@ -26,7 +26,7 @@ class TestParse < Test::Unit::TestCase
       amount: 30.98, description: 'STAPLES,INC')
   end
 
-  def test_withdrawal
+  def test_parse_atm_withdrawal
     run_parse_test_with(
       "This is an Alert to help manage your account ending in 6503.
 
@@ -36,7 +36,7 @@ class TestParse < Test::Unit::TestCase
       amount: 80.00, description: 'ATM Withdrawal')
   end
 
-  def test_external_transfer
+  def test_parse_external_transfer
     run_parse_test_with(
       "This is an Alert to help manage your account ending in 6503.
 
@@ -59,7 +59,7 @@ class TestParse < Test::Unit::TestCase
   private
 
   def run_parse_test_with(message, expected)
-    parser = Rol::Parser.new
+    parser = Rol::ChaseParser.new
     assert_equal(expected, parser.parse(message))
   end
 end

@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 
 module Rol
-  # Parse messages in plain text and return a hash with
+  # Parse Chase messages in plain text and return a hash with
   # parsed values such as quantity and description
 
-  class Parser
+  class ChaseParser
     @@nil_result = { amount: 0, description: '' }
 
     def parse(message)

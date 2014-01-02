@@ -1,25 +1,19 @@
 # -*- coding: UTF-8 -*-
 
 module Rol
-  # This is a container for Mail objects. It manages
-  # the connection and uses it to get data
+  # This is a container for Mail objects from a certain source.
+  # It manages a connection and uses it to get data
 
-  class Mailbox
-    @connected = false
-
-    def connected?
-      @connected
-    end
-
+  class ChaseMailbox
     def initialize(connection)
       @connection = connection
-
-      connection.connect
-      @connected = true
+      @parser = Rol::ChaseParser.new
     end
 
-    def get_messages
-      @connection.get_messages
+    def each_message
+      @connection.messages_from('chase.com').each do |m|
+        yield @parser.parse(m.body)
+      end
     end
   end
 end
