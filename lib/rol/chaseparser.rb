@@ -1,25 +1,38 @@
 # -*- coding: UTF-8 -*-
+require 'american_date'
+require 'time'
 
 module Rol
   # Parse Chase messages in plain text and return a hash with
   # parsed values such as quantity and description
 
   class ChaseParser
-    @@nil_result = { amount: 0, description: '' }
+    NIL_RESULT = { amount: 0, description: '', timestamp: '' }
+    EXPRESSIONS = [
+        /A \$(.*) debit card transaction to (.*) on (.*) exceeded/,
+        /A \$(.*) external transfer to (.*) on (.*) exceeded/,
+        /A \$(.*) (ATM withdrawal) on (.*) exceeded/,
+    ]
 
     def parse(message)
-      results = /A \$(.*) (debit card transaction to (.*)|ATM withdrawal) on/.match(message)
+      EXPRESSIONS.each do |e|
+        matches = e.match(message)
+        next if matches.nil?
 
-      if results.nil?
-        results = /A \$(.*) (external transfer to (.*)|ATM withdrawal) on/.match(message)
+        return result_for matches
       end
 
-      return @@nil_result if results.nil?
+      NIL_RESULT
+    end
 
-      amount = results[1].to_f
-      description = results[2] == 'ATM withdrawal' ? 'ATM Withdrawal' : results[3].strip
+    private
 
-      { amount: amount, description: description }
+    def result_for(matches)
+      amount = matches[1].to_f
+      description = matches[2].strip
+      timestamp = DateTime.parse(matches[3]).to_time.utc.iso8601
+
+      { amount: amount, description: description, timestamp: timestamp }
     end
   end
 end

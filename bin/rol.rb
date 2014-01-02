@@ -42,7 +42,7 @@ def parse_arguments
     exit
   end
 
-  return [ options[:username], options[:password] ]
+  [options[:username], options[:password]]
 end
 
 def main
