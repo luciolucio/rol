@@ -11,8 +11,13 @@ module Rol
       @session = Gmail.new(username, password)
     end
 
-    def messages_from(sender)
-      @session.inbox.emails(after: Time.now - 3 * SECONDS_IN_DAY, from: sender).map do |m|
+    def find_all(options)
+      days = options[:days] || 3
+      from = options[:from] || ''
+
+      @session.inbox.emails(
+          after: Time.now - days * SECONDS_IN_DAY,
+          from: from).map do |m|
         full_text = m.body.decoded
         MailMessage.new(full_text)
       end

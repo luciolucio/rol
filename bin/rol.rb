@@ -49,10 +49,10 @@ def main
   username, password = parse_arguments
 
   conn = Rol::GmailConnection.new(username, password)
-  box = Rol::ChaseMailbox.new(conn)
+  expense = Rol::ChaseExpense.new(conn)
 
-  box.each_message do |m|
-    puts m unless m[:amount] == 0
+  expense.find_by_days_ago(3) do |e|
+    puts e unless e[:amount] == 0
   end
 end
 
