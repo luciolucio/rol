@@ -10,7 +10,7 @@ Rol is not very useful if you do not bank online or do not use credit and debit 
 
 * Read email alert from Chase, parse and output something to standard output - DONE
 * Start parsing dates - DONE
-* Start saving parsed data to text files in JSON format
+* Save parsed data to a text file in JSON format - DONE
 * Start giving expenses an ID that can be traced back to the message it came from
 
 ## Usage

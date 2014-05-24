@@ -2,7 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 require_relative '../lib/rol'
+require 'json'
 require 'optparse'
+require 'tmpdir'
 
 def parse_arguments
   options = {}
@@ -51,9 +53,12 @@ def main
   conn = Rol::GmailConnection.new(username, password)
   expense = Rol::ChaseExpense.new(conn)
 
+  tempFile = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
   expense.find_by_days_ago(3) do |e|
-    puts e unless e[:amount] == 0
+    tempFile.puts e.to_json unless e[:amount] == 0
   end
+  tempFile.close
+  puts "Saved to #{tempFile.path}"
 end
 
 main
