@@ -5,13 +5,12 @@ require 'time'
 module Rol
   # Parse Chase messages in plain text and return a hash with
   # parsed values such as quantity and description
-
   class ChaseParser
     NIL_RESULT = { amount: 0, description: '', timestamp: '' }
     EXPRESSIONS = [
-        /A \$(.*) debit card transaction to (.*) on (.*) exceeded/,
-        /A \$(.*) external transfer to (.*) on (.*) exceeded/,
-        /A \$(.*) (ATM withdrawal) on (.*) exceeded/,
+      /A \$(.*) debit card transaction to (.*) on (.*) exceeded/,
+      /A \$(.*) external transfer to (.*) on (.*) exceeded/,
+      /A \$(.*) (ATM withdrawal) on (.*) exceeded/
     ]
 
     def parse(message)

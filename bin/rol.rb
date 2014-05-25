@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 require_relative '../lib/rol'
+require 'English'
 require 'json'
 require 'optparse'
 require 'tmpdir'
@@ -38,7 +39,7 @@ def parse_arguments
       exit
     end
   rescue OptionParser::InvalidOption, OptionParser::MissingArgument
-    puts $!.to_s
+    puts $ERROR_INFO.to_s
     puts
     puts parser
     exit
@@ -53,12 +54,12 @@ def main
   conn = Rol::GmailConnection.new(username, password)
   expense = Rol::ChaseExpense.new(conn)
 
-  tempFile = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
+  temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
   expense.find_by_days_ago(3) do |e|
-    tempFile.puts e.to_json unless e[:amount] == 0
+    temp_file.puts e.to_json unless e[:amount] == 0
   end
-  tempFile.close
-  puts "Saved to #{tempFile.path}"
+  temp_file.close
+  puts "Saved to #{temp_file.path}"
 end
 
 main

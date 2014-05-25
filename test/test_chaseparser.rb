@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+# rubocop:disable LineLength
 
 require_relative '../lib/rol'
 require 'test/unit'
@@ -6,8 +7,6 @@ require 'test/unit'
 # Unit tests for parsing functionality,
 # including parsing emails and any
 # other format that we're able to parse
-
-# rubocop:disable LineLength
 class TestChaseParser < Test::Unit::TestCase
   def test_parse_debit_card_transaction
     run_parse_test_with(

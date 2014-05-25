@@ -3,7 +3,6 @@ require 'gmail'
 
 module Rol
   # This is a connection to a gmail account
-
   class GmailConnection
     SECONDS_IN_DAY = 24 * 60 * 60
 
@@ -19,7 +18,7 @@ module Rol
           after: Time.now - days * SECONDS_IN_DAY,
           from: from).map do |m|
         full_text = m.body.decoded
-        MailMessage.new(full_text)
+        MailMessage.new(m.message_id, full_text)
       end
     end
   end

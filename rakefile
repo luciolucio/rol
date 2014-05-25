@@ -1,14 +1,14 @@
 require 'rake/clean'
 require 'rake/testtask'
 
-task :default => [ :clean ]
+task default: :clean
 
 task :clean do
-	CLEAN.add( FileList[ "*~" ] )
-	CLEAN.add( FileList[ "linty" ] )
-	CLEAN.add( FileList[ "diffy" ] )
+  CLEAN.add(FileList['*~'])
+  CLEAN.add(FileList['linty'])
+  CLEAN.add(FileList['diffy'])
 end
 
-Rake::TestTask.new( :test ) do | t |
-	t.pattern = 'test/test_*.rb'
+Rake::TestTask.new(:test) do |t|
+  t.pattern = 'test/test_*.rb'
 end
