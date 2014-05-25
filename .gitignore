@@ -1,5 +1,8 @@
 *~
 *.swp
+.bundle
 diffy
 config_local.rb
 config.rb
+bin/bundler
+bin/tt

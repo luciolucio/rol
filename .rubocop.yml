@@ -1,0 +1,8 @@
+AllCops:
+  Include:
+    - Gemfile
+    - rakefile
+    - bin/rol
+  Exclude:
+    - bin/bundler
+    - bin/tt
