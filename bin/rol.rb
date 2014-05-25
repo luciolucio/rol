@@ -7,41 +7,62 @@ require 'json'
 require 'optparse'
 require 'tmpdir'
 
-def parse_arguments
-  options = {}
+BANNER = 'Usage: rol.rb -u USERNAME -p PASSWORD'
 
-  parser = OptionParser.new do |opts|
-    opts.banner = 'Usage: rol.rb -u USERNAME -p PASSWORD'
+ARGUMENTS = [
+  {
+    short: '-u',
+    long:  '--username USERNAME',
+    text:  'Your gmail username',
+    key:   :username
+  },
+  {
+    short: '-p',
+    long:  '--password PASSWORD',
+    text:  'Your gmail password',
+    key:   :password
+  }
+]
 
-    opts.on('-u', '--username USERNAME', 'Your gmail username') do |user|
-      options[:username] = user
-    end
+REQUIRED_ARGUMENTS  = [:username, :password]
 
-    opts.on('-p', '--password PASSWORD', 'Your gmail password') do |password|
-      options[:password] = password
-    end
-
-    opts.on_tail('-h', '--help', 'Show this message') do
-      puts opts
-      exit
+def setup_arguments(parser, options)
+  ARGUMENTS.each do |option|
+    parser.on(option[:short], option[:long], option[:text]) do |value|
+      options[option[:key]] = value
     end
   end
+end
 
-  begin
-    parser.parse!
-    mandatory = [:username, :password]
-    missing = mandatory.select { |p| options[p].nil? }
+def setup_option_parser(options)
+  OptionParser.new do |parser|
+    parser.banner = BANNER
 
-    unless missing.empty?
-      puts "Missing options: #{missing.join(', ')}"
-      puts
+    setup_arguments(parser, options)
+
+    parser.on_tail('-h', '--help', 'Show this message') do
       puts parser
       exit
     end
+  end
+end
+
+def check_all_required_arguments_present(options)
+  missing = REQUIRED_ARGUMENTS.select { |p| options[p].nil? }
+  missing = missing.join(', ')
+
+  fail OptionParser::MissingArgument, missing unless missing.empty?
+end
+
+def parse_arguments
+  options = {}
+  parser = setup_option_parser(options)
+
+  begin
+    parser.parse!
+    check_all_required_arguments_present(options)
   rescue OptionParser::InvalidOption, OptionParser::MissingArgument
-    puts $ERROR_INFO.to_s
-    puts
-    puts parser
+    puts "#{$ERROR_INFO}\n#{parser}"
     exit
   end
 
