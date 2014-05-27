@@ -69,10 +69,25 @@ def parse_arguments
   [options[:username], options[:password]]
 end
 
+def configure(username, password)
+  Rol::Config.config do
+    parameter :username
+    parameter :password
+    parameter :connection_type
+  end
+
+  Rol::Config.config do
+    username username
+    password password
+    connection_type Rol::GmailConnection
+  end
+end
+
 def main
   username, password = parse_arguments
+  configure(username, password)
 
-  conn = Rol::GmailConnection.new(username, password)
+  conn = Rol::Config.connection_type.new(username, password)
   expense = Rol::ChaseExpense.new(conn)
 
   temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
