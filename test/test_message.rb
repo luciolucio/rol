@@ -8,17 +8,9 @@ module Rol
   module Message
     # For testing - a message that is from @one.com
     class OnesMessage
-      def initialize(message)
-        @message = message
-      end
-
-      def method_missing?(method, *args, &block)
-        @message.send(method, *args, &block)
-      end
-
       def self.from_message(message)
         if message.sender.include? '@one.com'
-          OnesMessage.new(message)
+          OnesMessage.new
         else
           nil
         end
