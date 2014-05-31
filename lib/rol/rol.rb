@@ -7,7 +7,7 @@ module Rol
     Config.instance.instance_eval(&block)
   end
 
-  def self.message_parsers
-    Config.instance.message_parsers
+  def self.message_types
+    Config.instance.message_types
   end
 end

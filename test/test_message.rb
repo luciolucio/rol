@@ -26,7 +26,7 @@ end
 class TestMessage < Test::Unit::TestCase
   def setup
     Rol.config do
-      message_parsers [
+      message_types [
         Rol::Message::OnesMessage,
         Rol::Message::ThreesMessage
       ]

@@ -6,15 +6,15 @@ module Rol
     include Singleton
 
     def initialize
-      # TODO: Put the actual parsers here
-      @message_parsers = nil
+      # TODO: Put the actual types here
+      @message_types = nil
     end
 
-    attr_accessor :message_parsers
+    attr_accessor :message_types
 
-    def message_parsers(parsers = nil)
-      return @message_parsers if parsers.nil?
-      @message_parsers = parsers
+    def message_types(types = nil)
+      return @message_types if types.nil?
+      @message_types = types
     end
   end
 end
