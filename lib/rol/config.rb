@@ -12,7 +12,7 @@ module Rol
 
     attr_accessor :message_parsers
 
-    def message_parsers(parsers)
+    def message_parsers(parsers = nil)
       return @message_parsers if parsers.nil?
       @message_parsers = parsers
     end
