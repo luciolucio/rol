@@ -8,6 +8,7 @@ GEM
     mime (0.2.0)
     mime-types (1.25.1)
     polyglot (0.3.3)
+    require_all (1.3.2)
     rr (1.1.2)
     ruby-gmail (0.3.0)
       mail (>= 2.2.1)
@@ -23,5 +24,6 @@ PLATFORMS
 
 DEPENDENCIES
   american_date
+  require_all
   rr
   ruby-gmail
