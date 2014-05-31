@@ -6,7 +6,7 @@ module Rol
     include Singleton
 
     def initialize
-      # TODO: Put the actual types here
+      # TODO: Put the default types here
       @message_types = nil
     end
 
