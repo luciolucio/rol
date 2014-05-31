@@ -21,6 +21,12 @@ end
 
 # Unit tests for Message
 class TestMessage < Test::Unit::TestCase
+  def setup
+    Rol.config do
+      message_parsers [Rol::Message::OnesMessage]
+    end
+  end
+
   def test_categorize
     message = Mail.new { sender 'some@one.com' }
     message = message.categorize

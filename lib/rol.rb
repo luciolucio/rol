@@ -9,3 +9,5 @@ require_relative 'rol/gmailconnection'
 require_relative 'rol/mailmessage'
 require_relative 'rol/message'
 require_relative 'rol/chaseparser'
+
+require_relative 'rol/rol'

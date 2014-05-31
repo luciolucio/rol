@@ -1,21 +1,20 @@
+require 'singleton'
+
 module Rol
   # Main configuration for Rol
-  module Config
-    module_function
+  class Config
+    include Singleton
 
-    def parameter(*names)
-      names.each do |name|
-        attr_accessor name
-
-        define_method name do |*values|
-          value = values.first
-          value ? send("#{name}=", value) : instance_variable_get("@#{name}")
-        end
-      end
+    def initialize
+      # TODO: Put the actual parsers here
+      @message_parsers = nil
     end
 
-    def config(&block)
-      instance_eval(&block)
+    attr_accessor :message_parsers
+
+    def message_parsers(parsers)
+      return @message_parsers if parsers.nil?
+      @message_parsers = parsers
     end
   end
 end
