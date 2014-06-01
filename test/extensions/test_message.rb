@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-require_relative '../lib/rol'
+require_relative '../../lib/rol'
 require 'test/unit'
 require 'mail'
 

@@ -2,12 +2,13 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require_relative 'rol/chaseexpense'
 require_relative 'rol/config'
 require_relative 'rol/exception'
-require_relative 'rol/chaseexpense'
+require_relative 'rol/extensions/message'
 require_relative 'rol/gmailconnection'
 require_relative 'rol/mailmessage'
-require_relative 'rol/message'
+require_relative 'rol/messages'
 require_relative 'rol/chaseparser'
 
 require_relative 'rol/rol'

@@ -10,5 +10,5 @@ task :clean do
 end
 
 Rake::TestTask.new(:test) do |t|
-  t.pattern = 'test/test_*.rb'
+  t.pattern = 'test/**/test_*.rb'
 end
