@@ -4,8 +4,9 @@
 require_relative '../../lib/rol'
 require 'test/unit'
 
-# Test the 'Your Debit Card Transaction' email from Chase
 # TODO: Test creation at from_message
+
+# Test the 'Your Debit Card Transaction' email from Chase
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:disable SingleSpaceBeforeFirstArg
   def new_mail(body)
@@ -25,7 +26,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     expected = { amount: 3.76, description: 'PIER 49 PIZZA - SALT', timestamp: '2013-12-24T19:13:48Z' }
 
-    dct = ChaseDebitCardTransaction.from_message(message)
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
     assert_equal(expected, dct.to_expense)
   end
 
@@ -38,7 +39,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     expected = { amount: 30.98, description: 'STAPLES,INC', timestamp: '2013-12-28T00:30:07Z' }
 
-    dct = ChaseDebitCardTransaction.from_message(message)
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
     assert_equal(expected, dct.to_expense)
   end
 end

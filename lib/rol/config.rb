@@ -7,7 +7,9 @@ module Rol
 
     def initialize
       # TODO: Put the default types here
-      @message_types = nil
+      @message_types = [
+        Rol::Messages::ChaseDebitCardTransaction
+      ]
     end
 
     attr_accessor :message_types
