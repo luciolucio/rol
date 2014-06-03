@@ -5,7 +5,12 @@ module Rol
     # 'Your Debit Card Transaction' email from Chase
     class ChaseDebitCardTransaction
       def self.from_message(message)
-        ChaseDebitCardTransaction.new(message)
+        if message.subject.include?('Your Debit Card Transaction') &&
+           message.from[0].include?('chase.com')
+          return ChaseDebitCardTransaction.new(message)
+        end
+
+        nil
       end
 
       def to_expense

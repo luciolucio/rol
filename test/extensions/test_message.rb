@@ -5,7 +5,7 @@ require 'test/unit'
 require 'mail'
 
 module Rol
-  module Message
+  module Messages
     # A message from @one.com
     class OnesMessage
       def self.from_message(message)
@@ -27,8 +27,8 @@ class TestMessage < Test::Unit::TestCase
   def setup
     Rol.config do
       message_types [
-        Rol::Message::OnesMessage,
-        Rol::Message::ThreesMessage
+        Rol::Messages::OnesMessage,
+        Rol::Messages::ThreesMessage
       ]
     end
   end
@@ -36,18 +36,18 @@ class TestMessage < Test::Unit::TestCase
   def test_should_categorize_message_from_one_dot_com
     message = Mail.new { sender 'some@one.com' }
     message = message.categorize
-    assert(message.is_a?(Rol::Message::OnesMessage))
+    assert(message.is_a?(Rol::Messages::OnesMessage))
   end
 
-  def test_should_return_null_for_message_from_two_dot_com
+  def test_should_return_unrecognized_message_for_message_from_two_dot_com
     message = Mail.new { sender 'some@two.com' }
     message = message.categorize
-    assert(message.nil?)
+    assert(message.is_a?(Rol::Messages::UnrecognizedMessage))
   end
 
   def test_should_categorize_message_from_three_dot_com
     message = Mail.new { sender 'some@three.com' }
     message = message.categorize
-    assert(message.is_a?(Rol::Message::ThreesMessage))
+    assert(message.is_a?(Rol::Messages::ThreesMessage))
   end
 end

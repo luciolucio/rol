@@ -69,16 +69,23 @@ def parse_arguments
   [options[:username], options[:password]]
 end
 
-def main
+def connection
   username, password = parse_arguments
+  Rol::GmailConnection.new(username, password)
+end
 
-  conn = Rol::GmailConnection.new(username, password)
-  expense = Rol::ChaseExpense.new(conn)
-
+def main
+  conn = connection
   temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
-  expense.find_by_days_ago(3) do |e|
+
+  expenses = conn.find_all(from: 'chase.com', days: 3).map do |m|
+    m.categorize.to_expense
+  end
+
+  expenses.each do |e|
     temp_file.puts e.to_json unless e[:amount] == 0
   end
+
   temp_file.close
   puts "Saved to #{temp_file.path}"
 end

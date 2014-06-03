@@ -16,10 +16,7 @@ module Rol
 
       @session.inbox.emails(
           after: Time.now - days * SECONDS_IN_DAY,
-          from: from).map do |m|
-        full_text = m.body.decoded
-        MailMessage.new(m.message_id, full_text)
-      end
+          from: from)
     end
   end
 end

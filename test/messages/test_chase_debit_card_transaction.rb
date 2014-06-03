@@ -4,8 +4,6 @@
 require_relative '../../lib/rol'
 require 'test/unit'
 
-# TODO: Test creation at from_message
-
 # Test the 'Your Debit Card Transaction' email from Chase
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:disable SingleSpaceBeforeFirstArg
@@ -41,5 +39,24 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
     assert_equal(expected, dct.to_expense)
+  end
+
+  def test_should_create_when_subject_and_sender_are_right
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(new_mail(''))
+    assert_equal(Rol::Messages::ChaseDebitCardTransaction, dct.class)
+  end
+
+  def test_should_return_null_when_subject_is_not_right
+    mail = new_mail('')
+    mail.subject = 'Something else'
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(mail)
+    assert_equal(nil, dct)
+  end
+
+  def test_should_return_null_when_sender_is_not_right
+    mail = new_mail('')
+    mail.from = 'person@otherbank.com'
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(mail)
+    assert_equal(nil, dct)
   end
 end

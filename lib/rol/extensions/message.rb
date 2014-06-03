@@ -13,7 +13,7 @@ module Mail
         return msg unless msg.nil?
       end
 
-      nil
+      Rol::Messages::UnrecognizedMessage.new
     end
   end
 end
