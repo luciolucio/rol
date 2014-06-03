@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+require 'american_date'
 
 module Rol
   module Messages

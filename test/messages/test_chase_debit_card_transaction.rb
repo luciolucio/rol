@@ -28,7 +28,6 @@
 #
 #     If you have questions about this transaction, please log on to chase.com or call 1-877-CHASEPC (1-877-242-7372).",
 #     amount: 0, description: '', timestamp: '')
-# 
 
 require_relative '../../lib/rol'
 require 'test/unit'
