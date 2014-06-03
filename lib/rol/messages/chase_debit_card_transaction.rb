@@ -3,6 +3,9 @@
 module Rol
   module Messages
     # 'Your Debit Card Transaction' email from Chase
+    # TODO: Other emails with these expressions:
+    # /A \$(.*) external transfer to (.*) on (.*) exceeded/,
+    # /A \$(.*) (ATM withdrawal) on (.*) exceeded/
     class ChaseDebitCardTransaction
       def self.from_message(message)
         if message.subject.include?('Your Debit Card Transaction') &&
