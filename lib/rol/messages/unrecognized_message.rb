@@ -5,7 +5,11 @@ module Rol
     # A message that does not match any of the other parsers
     class UnrecognizedMessage
       def to_expense
-        { amount: 0 }
+        Expense.new do
+          amount nil
+          description nil
+          timestamp nil
+        end
       end
     end
   end

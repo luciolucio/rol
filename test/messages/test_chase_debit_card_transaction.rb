@@ -50,10 +50,12 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
       A $3.76 debit card transaction to PIER 49 PIZZA - SALT on 12/24/2013 2:13:48 PM EST exceeded your $0.00 set Alert limit.')
 
-    expected = { amount: 3.76, description: 'PIER 49 PIZZA - SALT', timestamp: '2013-12-24T19:13:48Z' }
-
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
-    assert_equal(expected, dct.to_expense)
+    expense = dct.to_expense
+
+    assert_equal(3.76, expense.amount)
+    assert_equal('PIER 49 PIZZA - SALT', expense.description)
+    assert_equal('2013-12-24T19:13:48Z', expense.timestamp)
   end
 
   def test_should_parse_debit_card_txn_with_trailing_spaces
@@ -63,10 +65,12 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
       If you have any questions about this transaction, please call 1-877-CHASEPC.')
 
-    expected = { amount: 30.98, description: 'STAPLES,INC', timestamp: '2013-12-28T00:30:07Z' }
-
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
-    assert_equal(expected, dct.to_expense)
+    expense = dct.to_expense
+
+    assert_equal(30.98, expense.amount)
+    assert_equal('STAPLES,INC', expense.description)
+    assert_equal('2013-12-28T00:30:07Z', expense.timestamp)
   end
 
   def test_should_create_when_subject_and_sender_are_right

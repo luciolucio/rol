@@ -74,16 +74,25 @@ def connection
   Rol::GmailConnection.new(username, password)
 end
 
+def jsonify(expense)
+  hash = {
+    amount: expense.amount,
+    description: expense.description,
+    timestamp: expense.timestamp
+  }
+
+  hash.to_json
+end
+
 def main
-  conn = connection
   temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
 
-  expenses = conn.find_all(from: 'chase.com', days: 3).map do |m|
+  expenses = connection.find_all(from: 'chase.com', days: 3).map do |m|
     m.categorize.to_expense
   end
 
   expenses.each do |e|
-    temp_file.puts e.to_json unless e[:amount] == 0
+    temp_file.puts jsonify(e) unless e.amount.nil?
   end
 
   temp_file.close

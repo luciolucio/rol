@@ -8,6 +8,10 @@ require 'test/unit'
 class TestUnrecognizedMessage < Test::Unit::TestCase
   def test_should_parse_to_a_zero_expense
     unrec = Rol::Messages::UnrecognizedMessage.new
-    assert_equal({ amount: 0 }, unrec.to_expense)
+    expense = unrec.to_expense
+
+    assert_equal(nil, expense.amount)
+    assert_equal(nil, expense.description)
+    assert_equal(nil, expense.timestamp)
   end
 end
