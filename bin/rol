@@ -3,9 +3,7 @@
 
 require_relative '../lib/rol'
 require 'English'
-require 'json'
 require 'optparse'
-require 'tmpdir'
 
 BANNER = 'Usage: rol.rb -u USERNAME -p PASSWORD'
 
@@ -69,7 +67,7 @@ def parse_arguments
   [options[:username], options[:password]]
 end
 
-def setup
+def setup_mail
   username, password = parse_arguments
 
   Mail.defaults do
@@ -81,30 +79,29 @@ def setup
   end
 end
 
-def jsonify(expense)
-  hash = {
-    amount: expense.amount,
-    description: expense.description,
-    timestamp: expense.timestamp
-  }
+def setup_rol
+  Rol.config do
+    storage :temp_file
+  end
+end
 
-  hash.to_json
+def setup
+  setup_mail
+  setup_rol
 end
 
 def main
   setup
-  temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
 
   expenses = Mail.find(what: :last, count: 20).map do |m|
     m.identify.to_expense
   end
 
   expenses.each do |e|
-    temp_file.puts jsonify(e) unless e.amount.nil?
+    e.save
   end
 
-  temp_file.close
-  puts "Saved to #{temp_file.path}"
+  puts "Saved with #{Rol.storage.inspect}"
 end
 
 main

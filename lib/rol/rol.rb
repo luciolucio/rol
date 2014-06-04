@@ -10,4 +10,8 @@ module Rol
   def self.message_types
     Config.instance.message_types
   end
+
+  def self.storage
+    Config.instance.storage
+  end
 end
