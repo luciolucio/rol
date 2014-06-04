@@ -69,9 +69,16 @@ def parse_arguments
   [options[:username], options[:password]]
 end
 
-def connection
+def setup
   username, password = parse_arguments
-  Rol::GmailConnection.new(username, password)
+
+  Mail.defaults do
+    retriever_method :imap, address:    'imap.gmail.com',
+                            port:       993,
+                            user_name:  username,
+                            password:   password,
+                            enable_ssl: true
+  end
 end
 
 def jsonify(expense)
@@ -85,9 +92,10 @@ def jsonify(expense)
 end
 
 def main
+  setup
   temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
 
-  expenses = connection.find_all(from: 'chase.com', days: 3).map do |m|
+  expenses = Mail.find(what: :last, count: 20).map do |m|
     m.categorize.to_expense
   end
 
