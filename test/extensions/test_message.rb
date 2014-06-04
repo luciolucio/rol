@@ -33,21 +33,21 @@ class TestMessage < Test::Unit::TestCase
     end
   end
 
-  def test_should_categorize_message_from_one_dot_com
+  def test_should_identify_message_from_one_dot_com
     message = Mail.new { sender 'some@one.com' }
-    message = message.categorize
+    message = message.identify
     assert(message.is_a?(Rol::Messages::OnesMessage))
   end
 
   def test_should_return_unrecognized_message_for_message_from_two_dot_com
     message = Mail.new { sender 'some@two.com' }
-    message = message.categorize
+    message = message.identify
     assert(message.is_a?(Rol::Messages::UnrecognizedMessage))
   end
 
-  def test_should_categorize_message_from_three_dot_com
+  def test_should_identify_message_from_three_dot_com
     message = Mail.new { sender 'some@three.com' }
-    message = message.categorize
+    message = message.identify
     assert(message.is_a?(Rol::Messages::ThreesMessage))
   end
 end

@@ -96,7 +96,7 @@ def main
   temp_file = File.new(File.join(Dir.tmpdir, 'pipakes'), 'w')
 
   expenses = Mail.find(what: :last, count: 20).map do |m|
-    m.categorize.to_expense
+    m.identify.to_expense
   end
 
   expenses.each do |e|
