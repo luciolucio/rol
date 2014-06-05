@@ -46,6 +46,10 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:enable SingleSpaceBeforeFirstArg
 
   def setup
+    Mail.defaults do
+      delivery_method :test
+    end
+
     Rol.config do
       storage :test
     end
@@ -98,7 +102,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     assert_equal(nil, dct)
   end
 
-  def test_process_will_parse_and_save
+  def test_should_parse_and_save_when_process_invoked
     message = new_mail('This is an Alert to help manage your account ending in 6503.
 
       A $3.76 debit card transaction to PIER 49 PIZZA - SALT on 12/24/2013 2:13:48 PM EST exceeded your $0.00 set Alert limit.')
@@ -110,5 +114,39 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     assert_equal(3.76, saved_expense.amount)
     assert_equal('PIER 49 PIZZA - SALT', saved_expense.description)
     assert_equal('2013-12-24T19:13:48Z', saved_expense.timestamp)
+  end
+
+  def test_should_send_a_message_when_process_invoked
+    message = new_mail('This is an Alert to help manage your account ending in 6503.
+
+      A $3.76 debit card transaction to PIER 49 PIZZA - SALT on 12/24/2013 2:13:48 PM EST exceeded your $0.00 set Alert limit.')
+
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+
+    Mail::TestMailer.deliveries.clear
+    dct.process
+
+    assert_equal(1, Mail::TestMailer.deliveries.length)
+
+    first = Mail::TestMailer.deliveries.first
+    assert_equal("Amount: 3.76\nDescription: PIER 49 PIZZA - SALT\nTimestamp: 2013-12-24T19:13:48Z", first.body.decoded)
+  end
+
+  def test_should_send_a_message_when_process_invoked
+    message = new_mail('This is an Alert to help manage your account ending in 6503.
+
+      A $30.98 debit card transaction to STAPLES,INC          on 12/27/2013 7:30:07 PM EST exceeded your $0.00 set Alert limit.
+
+      If you have any questions about this transaction, please call 1-877-CHASEPC.')
+
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+
+    Mail::TestMailer.deliveries.clear
+    dct.process
+
+    assert_equal(1, Mail::TestMailer.deliveries.length)
+
+    first = Mail::TestMailer.deliveries.first
+    assert_equal("Amount: 30.98\nDescription: STAPLES,INC\nTimestamp: 2013-12-28T00:30:07Z", first.body.decoded)
   end
 end

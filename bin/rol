@@ -67,15 +67,30 @@ def parse_arguments
   [options[:username], options[:password]]
 end
 
+def retriever_options(username, password)
+  { address:    'imap.gmail.com',
+    port:       993,
+    user_name:  username,
+    password:   password,
+    enable_ssl: true }
+end
+
+def delivery_options(username, password)
+  { address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            username,
+    password:             password,
+    authentication:       'plain',
+    enable_starttls_auto: true }
+end
+
 def setup_mail
   username, password = parse_arguments
 
   Mail.defaults do
-    retriever_method :imap, address:    'imap.gmail.com',
-                            port:       993,
-                            user_name:  username,
-                            password:   password,
-                            enable_ssl: true
+    retriever_method :imap, retriever_options(username, password)
+    delivery_method :smtp, delivery_options(username, password)
   end
 end
 
@@ -93,7 +108,7 @@ end
 def main
   setup
 
-  Mail.find(what: :last, count: 3, keys: 'FROM chase.com').each do |m|
+  Mail.find(what: :last, count: 10, keys: 'FROM chase.com').each do |m|
     message = m.identify
     message.process
   end

@@ -30,7 +30,17 @@ module Rol
       end
 
       def process
-        Rol.storage.save_expense(to_expense)
+        ex = to_expense
+        Rol.storage.save_expense(ex)
+
+        Mail.deliver do
+          to 'someone@example.com'
+          from 'person@example.com'
+          subject 'Hi there'
+          body "Amount: #{ex.amount}\n" \
+               "Description: #{ex.description}\n" \
+               "Timestamp: #{ex.timestamp}"
+        end
       end
 
       private
