@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 require 'american_date'
+require 'time'
 
 module Rol
   module Messages
