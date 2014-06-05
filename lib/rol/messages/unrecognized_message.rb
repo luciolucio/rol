@@ -11,6 +11,9 @@ module Rol
           timestamp nil
         end
       end
+
+      def process
+      end
     end
   end
 end

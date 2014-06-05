@@ -14,4 +14,9 @@ class TestUnrecognizedMessage < Test::Unit::TestCase
     assert_equal(nil, expense.description)
     assert_equal(nil, expense.timestamp)
   end
+
+  def test_should_have_a_process_method
+    unrec = Rol::Messages::UnrecognizedMessage.new
+    assert_respond_to(unrec, :process)
+  end
 end

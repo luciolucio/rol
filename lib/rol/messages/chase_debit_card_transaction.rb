@@ -29,6 +29,10 @@ module Rol
         end
       end
 
+      def process
+        Rol.storage.save_expense(to_expense)
+      end
+
       private
 
       def initialize(message)

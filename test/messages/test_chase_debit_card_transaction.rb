@@ -45,6 +45,12 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
   end
   # rubocop:enable SingleSpaceBeforeFirstArg
 
+  def setup
+    Rol.config do
+      storage :test
+    end
+  end
+
   def test_should_parse_debit_card_transaction
     message = new_mail('This is an Alert to help manage your account ending in 6503.
 
@@ -90,5 +96,19 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     mail.from = 'person@otherbank.com'
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(mail)
     assert_equal(nil, dct)
+  end
+
+  def test_process_will_parse_and_save
+    message = new_mail('This is an Alert to help manage your account ending in 6503.
+
+      A $3.76 debit card transaction to PIER 49 PIZZA - SALT on 12/24/2013 2:13:48 PM EST exceeded your $0.00 set Alert limit.')
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+    dct.process
+
+    saved_expense = Rol::Storage::TestStorage.stored_expenses.first
+
+    assert_equal(3.76, saved_expense.amount)
+    assert_equal('PIER 49 PIZZA - SALT', saved_expense.description)
+    assert_equal('2013-12-24T19:13:48Z', saved_expense.timestamp)
   end
 end

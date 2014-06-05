@@ -93,12 +93,9 @@ end
 def main
   setup
 
-  expenses = Mail.find(what: :last, count: 20).map do |m|
-    m.identify.to_expense
-  end
-
-  expenses.each do |e|
-    e.save
+  Mail.find(what: :last, count: 3, keys: 'FROM chase.com').each do |m|
+    message = m.identify
+    message.process
   end
 
   puts "Saved with #{Rol.storage.inspect}"
