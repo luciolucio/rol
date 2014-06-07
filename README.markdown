@@ -16,7 +16,7 @@ Rol is not very useful if you do not bank online or do not use credit and debit 
 
 ## Usage
 
-rol -u user -p password
+rol -u user -p password -r recipient
 
 # License
 
