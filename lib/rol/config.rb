@@ -15,9 +15,6 @@ module Rol
       storage :temp_file
     end
 
-    attr_accessor :message_types
-    attr_accessor :storage_type
-
     def message_types(types = nil)
       return @message_types if types.nil?
       @message_types = types

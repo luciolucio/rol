@@ -19,10 +19,16 @@ ARGUMENTS = [
     long:  '--password PASSWORD',
     text:  'Your gmail password',
     key:   :password
+  },
+  {
+    short: '-r',
+    long:  '--recipient RECIPIENT',
+    text:  'Who receives emails',
+    key:   :recipient
   }
 ]
 
-REQUIRED_ARGUMENTS  = [:username, :password]
+REQUIRED_ARGUMENTS  = [:username, :password, :recipient]
 
 def setup_arguments(parser, options)
   ARGUMENTS.each do |option|
@@ -64,15 +70,7 @@ def parse_arguments
     exit
   end
 
-  [options[:username], options[:password]]
-end
-
-def retriever_options(username, password)
-  { address:    'imap.gmail.com',
-    port:       993,
-    user_name:  username,
-    password:   password,
-    enable_ssl: true }
+  [options[:username], options[:password], options[:recipient]]
 end
 
 def delivery_options(username, password)
@@ -85,30 +83,31 @@ def delivery_options(username, password)
     enable_starttls_auto: true }
 end
 
-def setup_mail
-  username, password = parse_arguments
-
+def setup(username, password)
   Mail.defaults do
-    retriever_method :imap, retriever_options(username, password)
     delivery_method :smtp, delivery_options(username, password)
   end
-end
 
-def setup_rol
   Rol.config do
     storage :temp_file
   end
 end
 
-def setup
-  setup_mail
-  setup_rol
+def create_user(username, password, recipient)
+  Rol::User.new do
+    retriever_method :gmail, user_name: username,
+                             password:  password
+
+    recipient recipient
+  end
 end
 
 def main
-  setup
+  username, password, recipient = parse_arguments
+  setup(username, password)
+  user = create_user(username, password, recipient)
 
-  Mail.find(what: :last, count: 10, keys: 'FROM chase.com').each do |m|
+  Mail.for(user, what: :last, count: 10, keys: 'FROM chase.com').each do |m|
     message = m.identify
     message.process
   end

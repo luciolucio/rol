@@ -15,5 +15,12 @@ module Mail
 
       Rol::Messages::UnrecognizedMessage.new
     end
+
+    attr_accessor :user
+
+    def user(user = nil)
+      return @user if user.nil?
+      @user = user
+    end
   end
 end

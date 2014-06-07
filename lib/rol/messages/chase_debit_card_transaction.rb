@@ -9,6 +9,9 @@ module Rol
     # /A \$(.*) external transfer to (.*) on (.*) exceeded/,
     # /A \$(.*) (ATM withdrawal) on (.*) exceeded/
     class ChaseDebitCardTransaction
+      attr_accessor :body
+      attr_accessor :user
+
       def self.from_message(message)
         if message.subject.include?('Your Debit Card Transaction') &&
            message.from[0].include?('chase.com')
@@ -31,22 +34,27 @@ module Rol
 
       def process
         ex = to_expense
-        Rol.storage.save_expense(ex)
 
-        Mail.deliver do
-          to 'someone@example.com'
-          from 'person@example.com'
-          subject 'Hi there'
-          body "Amount: #{ex.amount}\n" \
-               "Description: #{ex.description}\n" \
-               "Timestamp: #{ex.timestamp}"
-        end
+        Rol.storage.save_expense(ex)
+        deliver(ex, @user.recipient)
       end
 
       private
 
       def initialize(message)
         @body = message.body.decoded
+        @user = message.user
+      end
+
+      def deliver(expense, recipient)
+        Mail.deliver do
+          to recipient
+          from 'person@example.com'
+          subject 'Hi there'
+          body "Amount: #{expense.amount}\n" \
+               "Description: #{expense.description}\n" \
+               "Timestamp: #{expense.timestamp}"
+        end
       end
     end
   end

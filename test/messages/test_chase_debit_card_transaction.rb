@@ -36,12 +36,17 @@ require 'test/unit'
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:disable SingleSpaceBeforeFirstArg
   def new_mail(body)
-    Mail.new do
+    @recipient = recipient = 'mail@somewhere.com'
+
+    m = Mail.new do
       from    'no-reply@alertsp.chase.com'
       to      'you@place.com'
       subject 'Your Debit Card Transaction'
       body    body
     end
+
+    m.user = Rol::User.new { recipient recipient }
+    m
   end
   # rubocop:enable SingleSpaceBeforeFirstArg
 
@@ -49,6 +54,8 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     Mail.defaults do
       delivery_method :test
     end
+
+    Mail::TestMailer.deliveries.clear
 
     Rol.config do
       storage :test
@@ -123,7 +130,6 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
 
-    Mail::TestMailer.deliveries.clear
     dct.process
 
     assert_equal(1, Mail::TestMailer.deliveries.length)
@@ -132,7 +138,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     assert_equal("Amount: 3.76\nDescription: PIER 49 PIZZA - SALT\nTimestamp: 2013-12-24T19:13:48Z", first.body.decoded)
   end
 
-  def test_should_send_a_message_when_process_invoked
+  def test_should_send_a_message_to_recipient_when_process_invoked
     message = new_mail('This is an Alert to help manage your account ending in 6503.
 
       A $30.98 debit card transaction to STAPLES,INC          on 12/27/2013 7:30:07 PM EST exceeded your $0.00 set Alert limit.
@@ -141,12 +147,13 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
 
-    Mail::TestMailer.deliveries.clear
     dct.process
 
     assert_equal(1, Mail::TestMailer.deliveries.length)
 
     first = Mail::TestMailer.deliveries.first
     assert_equal("Amount: 30.98\nDescription: STAPLES,INC\nTimestamp: 2013-12-28T00:30:07Z", first.body.decoded)
+    assert_equal(1, first.to.size)
+    assert_equal(@recipient, first.to.first)
   end
 end
