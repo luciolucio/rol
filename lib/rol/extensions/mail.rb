@@ -2,6 +2,7 @@
 
 # Extensions for Mail
 module Mail
+  # rubocop: disable MethodLength
   def self.for(user, *args)
     if block_given?
       user.retriever_method.find(*args).each do |email|
@@ -15,4 +16,5 @@ module Mail
       end
     end
   end
+  # rubocop: enable MethodLength
 end
