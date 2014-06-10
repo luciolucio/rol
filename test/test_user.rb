@@ -63,4 +63,12 @@ class TestUser < Test::Unit::TestCase
     assert_equal(@user_name, user.retriever_method.settings[:user_name])
     assert_equal(@password, user.retriever_method.settings[:password])
   end
+
+  def test_should_create_with_email_format_option
+    user = Rol::User.new do
+      format :plain_text
+    end
+
+    assert_equal(Rol::Format::PlainText, user.format.class)
+  end
 end

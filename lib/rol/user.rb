@@ -27,5 +27,10 @@ module Rol
           .lookup_retriever_method(method).new(settings)
       end
     end
+
+    def format(format = nil)
+      return @format if format.nil?
+      @format = Rol::Format::PlainText.new
+    end
   end
 end

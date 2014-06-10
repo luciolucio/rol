@@ -33,6 +33,16 @@ class TestMessage < Test::Unit::TestCase
     end
   end
 
+  def test_should_create_with_user
+    user = Rol::User.new
+
+    message = Mail.new do
+      user user
+    end
+
+    assert_equal(user, message.user)
+  end
+
   def test_should_identify_message_from_one_dot_com
     message = Mail.new { sender 'some@one.com' }
     message = message.identify

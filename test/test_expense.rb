@@ -35,4 +35,24 @@ class TestExpense < Test::Unit::TestCase
 
     assert_equal(true, Rol::Storage::TestStorage.stored_expenses.include?(e))
   end
+
+  def test_should_be_equal_if_equal_attributes
+    ex = Rol::Expense.new do
+      amount 2
+      description 'Yo'
+      timestamp '1:13'
+    end
+
+    assert_equal(ex.dup, ex)
+  end
+
+  def test_should_be_equal_if_all_attributes_nil
+    ex = Rol::Expense.new do
+      amount nil
+      description nil
+      timestamp nil
+    end
+
+    assert_equal(ex.dup, ex)
+  end
 end

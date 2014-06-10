@@ -47,13 +47,13 @@ module Rol
       end
 
       def deliver(expense, recipient)
+        format = @user.format
+
         Mail.deliver do
           to recipient
           from 'person@example.com'
           subject 'Hi there'
-          body "Amount: #{expense.amount}\n" \
-               "Description: #{expense.description}\n" \
-               "Timestamp: #{expense.timestamp}"
+          body format.format(expense)
         end
       end
     end

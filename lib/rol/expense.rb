@@ -30,5 +30,11 @@ module Rol
     def save
       Rol.storage.save_expense(self)
     end
+
+    def ==(other)
+      amount == other.amount &&
+      description == other.description &&
+      timestamp == other.timestamp
+    end
   end
 end

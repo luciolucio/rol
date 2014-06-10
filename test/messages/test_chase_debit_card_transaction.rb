@@ -36,17 +36,24 @@ require 'test/unit'
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:disable SingleSpaceBeforeFirstArg
   def new_mail(body)
-    @recipient = recipient = 'mail@somewhere.com'
+    user = create_user
 
-    m = Mail.new do
+    Mail.new do
       from    'no-reply@alertsp.chase.com'
       to      'you@place.com'
       subject 'Your Debit Card Transaction'
       body    body
+      user    user
     end
+  end
 
-    m.user = Rol::User.new { recipient recipient }
-    m
+  def create_user
+    @recipient = recipient = 'mail@somewhere.com'
+
+    Rol::User.new do
+      recipient recipient
+      format    :plain_text
+    end
   end
   # rubocop:enable SingleSpaceBeforeFirstArg
 
@@ -133,9 +140,6 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     dct.process
 
     assert_equal(1, Mail::TestMailer.deliveries.length)
-
-    first = Mail::TestMailer.deliveries.first
-    assert_equal("Amount: 3.76\nDescription: PIER 49 PIZZA - SALT\nTimestamp: 2013-12-24T19:13:48Z", first.body.decoded)
   end
 
   def test_should_send_a_message_to_recipient_when_process_invoked
@@ -149,11 +153,19 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     dct.process
 
-    assert_equal(1, Mail::TestMailer.deliveries.length)
-
     first = Mail::TestMailer.deliveries.first
-    assert_equal("Amount: 30.98\nDescription: STAPLES,INC\nTimestamp: 2013-12-28T00:30:07Z", first.body.decoded)
     assert_equal(1, first.to.size)
     assert_equal(@recipient, first.to.first)
+  end
+
+  def test_should_send_a_formatted_message
+    message = new_mail('A $11.11 debit card transaction to COOL GUYS CO. on 11/11/2011 11:11:11 PM EST exceeded')
+
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+    ex = dct.to_expense
+    dct.process
+
+    first = Mail::TestMailer.deliveries.first
+    assert_equal(message.user.format.format(ex), first.body.decoded)
   end
 end
