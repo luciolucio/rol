@@ -20,7 +20,8 @@ module Rol
         hash = {
           amount: expense.amount,
           description: expense.description,
-          timestamp: expense.timestamp
+          timestamp: expense.timestamp,
+          input_message_id: expense.input_message_id
         }
 
         hash.to_json

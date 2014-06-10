@@ -10,11 +10,13 @@ class TestExpense < Test::Unit::TestCase
       amount 10
       description 'Hi'
       timestamp '10:15'
+      input_message_id 'myid'
     end
 
     assert_equal(10, e.amount)
     assert_equal('Hi', e.description)
     assert_equal('10:15', e.timestamp)
+    assert_equal('myid', e.input_message_id)
   end
 
   def test_should_create_with_no_parameters
@@ -23,6 +25,7 @@ class TestExpense < Test::Unit::TestCase
     assert_equal(nil, e.amount)
     assert_equal(nil, e.description)
     assert_equal(nil, e.timestamp)
+    assert_equal(nil, e.input_message_id)
   end
 
   def test_should_save_using_storage
@@ -41,6 +44,7 @@ class TestExpense < Test::Unit::TestCase
       amount 2
       description 'Yo'
       timestamp '1:13'
+      input_message_id 'id'
     end
 
     assert_equal(ex.dup, ex)
@@ -51,6 +55,7 @@ class TestExpense < Test::Unit::TestCase
       amount nil
       description nil
       timestamp nil
+      input_message_id nil
     end
 
     assert_equal(ex.dup, ex)

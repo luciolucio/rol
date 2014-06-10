@@ -11,6 +11,7 @@ module Rol
     attr_accessor :amount
     attr_accessor :description
     attr_accessor :timestamp
+    attr_accessor :input_message_id
 
     def amount(amt = nil)
       return @amount if amt.nil?
@@ -27,6 +28,11 @@ module Rol
       @timestamp = ts
     end
 
+    def input_message_id(id = nil)
+      return @input_message_id if id.nil?
+      @input_message_id = id
+    end
+
     def save
       Rol.storage.save_expense(self)
     end
@@ -34,7 +40,8 @@ module Rol
     def ==(other)
       amount == other.amount &&
       description == other.description &&
-      timestamp == other.timestamp
+      timestamp == other.timestamp &&
+      input_message_id == other.input_message_id
     end
   end
 end

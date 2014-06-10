@@ -99,6 +99,7 @@ def create_user(username, password, recipient)
                              password:  password
 
     recipient recipient
+    format :plain_text
   end
 end
 

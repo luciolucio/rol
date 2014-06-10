@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 # rubocop:disable LineLength
+# rubocop:disable ClassLength
 
 # TODO: Test other types of messages
 #
@@ -35,15 +36,16 @@ require 'test/unit'
 # Test the 'Your Debit Card Transaction' email from Chase
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   # rubocop:disable SingleSpaceBeforeFirstArg
-  def new_mail(body)
+  def new_mail(body, id = nil)
     user = create_user
 
     Mail.new do
-      from    'no-reply@alertsp.chase.com'
-      to      'you@place.com'
-      subject 'Your Debit Card Transaction'
-      body    body
-      user    user
+      from       'no-reply@alertsp.chase.com'
+      to         'you@place.com'
+      subject    'Your Debit Card Transaction'
+      body       body
+      user       user
+      message_id id
     end
   end
 
@@ -63,6 +65,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     end
 
     Mail::TestMailer.deliveries.clear
+    Rol::Storage::TestStorage.stored_expenses.clear
 
     Rol.config do
       storage :test
@@ -95,6 +98,15 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     assert_equal(30.98, expense.amount)
     assert_equal('STAPLES,INC', expense.description)
     assert_equal('2013-12-28T00:30:07Z', expense.timestamp)
+  end
+
+  def test_should_set_message_id_in_expense
+    message = new_mail('A $11.11 debit card transaction to COOL GUYS CO. on 11/11/2011 11:11:11 PM EST exceeded', 'id3131')
+
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+    expense = dct.to_expense
+
+    assert_equal('id3131', expense.input_message_id)
   end
 
   def test_should_create_when_subject_and_sender_are_right

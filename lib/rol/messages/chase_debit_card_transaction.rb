@@ -22,13 +22,15 @@ module Rol
       end
 
       def to_expense
+        message_id = @message.message_id
         expr = /A \$(.*) debit card transaction to (.*) on (.*) exceeded/
-        matches = expr.match(@body)
+        matches = expr.match(@message.body.decoded)
 
         Expense.new do
           amount matches[1].to_f
           description matches[2].strip
           timestamp DateTime.parse(matches[3]).to_time.utc.iso8601
+          input_message_id message_id
         end
       end
 
@@ -36,18 +38,17 @@ module Rol
         ex = to_expense
 
         Rol.storage.save_expense(ex)
-        deliver(ex, @user.recipient)
+        deliver(ex, @message.user.recipient)
       end
 
       private
 
       def initialize(message)
-        @body = message.body.decoded
-        @user = message.user
+        @message = message
       end
 
       def deliver(expense, recipient)
-        format = @user.format
+        format = @message.user.format
 
         Mail.deliver do
           to recipient
