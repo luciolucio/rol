@@ -16,11 +16,19 @@ module Rol
       end
 
       def all
-        Rol::Storage::TestStorage.stored_expenses
+        Rol::Storage::TestStorage.stored_expenses.dup
       end
 
       def save_expense(e)
-        Rol::Storage::TestStorage.stored_expenses << e
+        Rol::Storage::TestStorage.stored_expenses << e.dup
+      end
+
+      def save_all_expenses(expenses)
+        Rol::Storage::TestStorage.stored_expenses.clear
+
+        expenses.each do |e|
+          save_expense(e)
+        end
       end
     end
   end

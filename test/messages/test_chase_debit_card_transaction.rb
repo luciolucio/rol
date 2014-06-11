@@ -35,6 +35,19 @@ require 'test/unit'
 
 # Test the 'Your Debit Card Transaction' email from Chase
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
+  def setup
+    Mail.defaults do
+      delivery_method :test
+    end
+
+    Mail::TestMailer.deliveries.clear
+    Rol::Storage::TestStorage.stored_expenses.clear
+
+    Rol.config do
+      storage :test
+    end
+  end
+
   # rubocop:disable SingleSpaceBeforeFirstArg
   def new_mail(body, id = nil)
     user = create_user
@@ -58,19 +71,6 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     end
   end
   # rubocop:enable SingleSpaceBeforeFirstArg
-
-  def setup
-    Mail.defaults do
-      delivery_method :test
-    end
-
-    Mail::TestMailer.deliveries.clear
-    Rol::Storage::TestStorage.stored_expenses.clear
-
-    Rol.config do
-      storage :test
-    end
-  end
 
   def test_should_parse_debit_card_transaction
     message = new_mail('This is an Alert to help manage your account ending in 6503.
@@ -194,5 +194,14 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     assert_equal(1, Rol::Storage::TestStorage.stored_expenses.size)
     assert_equal(1, Mail::TestMailer.deliveries.size)
+  end
+
+  def test_should_save_expense_with_output_message_id
+    message = new_mail('A $11.11 debit card transaction to COOL GUYS CO. on 11/11/2011 11:11:11 PM EST exceeded')
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+
+    dct.process
+
+    assert_not_nil(Rol::Storage::TestStorage.stored_expenses[0].output_message_id)
   end
 end

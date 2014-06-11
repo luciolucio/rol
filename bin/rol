@@ -108,7 +108,7 @@ def main
   setup(username, password)
   user = create_user(username, password, recipient)
 
-  Mail.for(user, what: :last, count: 10, keys: 'FROM chase.com').each do |m|
+  Mail.for(user, what: :last, count: 10).each do |m|
     message = m.identify
     message.process
   end

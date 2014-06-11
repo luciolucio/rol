@@ -8,7 +8,8 @@ module Rol
     def initialize
       # TODO: Put the default types here
       @message_types = [
-        Rol::Messages::ChaseDebitCardTransaction
+        Rol::Messages::ChaseDebitCardTransaction,
+        Rol::Messages::ExpenseAnswer
       ]
 
       # TODO: Put an actual default storage here

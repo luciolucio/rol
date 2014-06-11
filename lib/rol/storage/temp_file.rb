@@ -21,7 +21,8 @@ module Rol
           amount: expense.amount,
           description: expense.description,
           timestamp: expense.timestamp,
-          input_message_id: expense.input_message_id
+          input_message_id: expense.input_message_id,
+          output_message_id: expense.output_message_id
         }
 
         hash.to_json
@@ -35,6 +36,7 @@ module Rol
           description json['description']
           timestamp json['timestamp']
           input_message_id json['input_message_id']
+          output_message_id json['output_message_id']
         end
       end
 
@@ -50,8 +52,22 @@ module Rol
         end
       end
 
+      def save_all_expenses(expenses)
+        clear_expenses
+
+        expenses.each do |e|
+          save_expense(e)
+        end
+      end
+
       def inspect
         "#<Rol::Storage::TempFile: #{@temp_filename}>"
+      end
+
+      private
+
+      def clear_expenses
+        File.delete(@temp_filename)
       end
     end
   end

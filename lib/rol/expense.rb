@@ -12,6 +12,7 @@ module Rol
     attr_accessor :description
     attr_accessor :timestamp
     attr_accessor :input_message_id
+    attr_accessor :output_message_id
 
     def amount(amt = nil)
       return @amount if amt.nil?
@@ -33,6 +34,11 @@ module Rol
       @input_message_id = id
     end
 
+    def output_message_id(id = nil)
+      return @output_message_id if id.nil?
+      @output_message_id = id
+    end
+
     def save
       Rol.storage.save_expense(self)
     end
@@ -42,11 +48,13 @@ module Rol
       description == other.description &&
       timestamp == other.timestamp &&
       input_message_id == other.input_message_id
+      output_message_id == other.output_message_id
     end
 
     def inspect
-      "#<Rol::Expense: #{@amount} at #{@description}" \
-      "on #{@timestamp}. From message_id: #{@input_message_id}>"
+      "#<Rol::Expense: #{@amount} at #{@description} " \
+      "on #{@timestamp}. From message_id: #{@input_message_id}. " \
+      "With output_message_id: #{@output_message_id}>"
     end
   end
 end

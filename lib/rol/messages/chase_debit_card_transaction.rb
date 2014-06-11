@@ -41,8 +41,8 @@ module Rol
 
         ex = to_expense
 
-        Rol.storage.save_expense(ex)
         deliver(ex, @message.user.recipient)
+        Rol.storage.save_expense(ex)
       end
 
       private
@@ -54,12 +54,15 @@ module Rol
       def deliver(expense, recipient)
         format = @message.user.format
 
-        Mail.deliver do
+        msg = Mail.new do
           to recipient
           from 'person@example.com'
           subject 'Hi there'
           body format.format(expense)
         end
+
+        msg.deliver!
+        expense.output_message_id = msg.message_id
       end
     end
   end
