@@ -15,6 +15,10 @@ module Rol
         @stored_expenses.clear
       end
 
+      def all
+        Rol::Storage::TestStorage.stored_expenses
+      end
+
       def save_expense(e)
         Rol::Storage::TestStorage.stored_expenses << e
       end

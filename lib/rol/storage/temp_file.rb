@@ -27,9 +27,26 @@ module Rol
         hash.to_json
       end
 
+      def unjsonify(line)
+        json = JSON.parse(line)
+
+        Expense.new do
+          amount json['amount']
+          description json['description']
+          timestamp json['timestamp']
+          input_message_id json['input_message_id']
+        end
+      end
+
       def save_expense(e)
         File.open(@temp_filename, 'a') do |f|
           f.puts jsonify(e) unless e.amount.nil?
+        end
+      end
+
+      def all
+        File.readlines(@temp_filename).map do |line|
+          unjsonify(line)
         end
       end
 

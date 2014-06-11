@@ -35,6 +35,10 @@ module Rol
       end
 
       def process
+        message_ids = Rol.storage.all.map { |t| t.input_message_id }
+
+        return if message_ids.include?(@message.message_id)
+
         ex = to_expense
 
         Rol.storage.save_expense(ex)

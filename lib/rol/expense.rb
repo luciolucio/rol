@@ -43,5 +43,10 @@ module Rol
       timestamp == other.timestamp &&
       input_message_id == other.input_message_id
     end
+
+    def inspect
+      "#<Rol::Expense: #{@amount} at #{@description}" \
+      "on #{@timestamp}. From message_id: #{@input_message_id}>"
+    end
   end
 end

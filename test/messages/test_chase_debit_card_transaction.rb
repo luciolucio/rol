@@ -180,4 +180,19 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     first = Mail::TestMailer.deliveries.first
     assert_equal(message.user.format.format(ex), first.body.decoded)
   end
+
+  def test_should_not_process_message_if_id_exists_in_storage
+    message = new_mail('A $11.11 debit card transaction to COOL GUYS CO. on 11/11/2011 11:11:11 PM EST exceeded')
+    message.message_id = '37years'
+
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+    dct.process
+
+    message2 = message.dup # Another message, same id
+    dct2 = Rol::Messages::ChaseDebitCardTransaction.from_message(message2)
+    dct2.process
+
+    assert_equal(1, Rol::Storage::TestStorage.stored_expenses.size)
+    assert_equal(1, Mail::TestMailer.deliveries.size)
+  end
 end
