@@ -46,10 +46,11 @@ class TestExpenseAnswer < Test::Unit::TestCase
 
     ex = Rol::Expense.new do
       amount amount
+      input_message_id SecureRandom.uuid
       output_message_id output_id
     end
 
-    Rol.storage.save_expense(ex)
+    ex.save
     ex
   end
 

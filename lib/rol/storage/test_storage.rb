@@ -5,6 +5,8 @@ module Rol
   module Storage
     # Storage test class
     class TestStorage
+      include Storage
+
       @stored_expenses = []
 
       def self.stored_expenses
@@ -15,16 +17,18 @@ module Rol
         @stored_expenses.clear
       end
 
-      def all
-        Rol::Storage::TestStorage.stored_expenses.dup
-      end
+      private
 
       def save_expense(e)
         Rol::Storage::TestStorage.stored_expenses << e.dup
       end
 
+      def all
+        Rol::Storage::TestStorage.stored_expenses.dup
+      end
+
       def save_all_expenses(expenses)
-        Rol::Storage::TestStorage.stored_expenses.clear
+        Rol::Storage::TestStorage.clear
 
         expenses.each do |e|
           save_expense(e)

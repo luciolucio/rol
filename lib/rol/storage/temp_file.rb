@@ -9,12 +9,20 @@ module Rol
     # Stores things in a temporary text file
     # Throwaway stuff just so I can run rol for now
     class TempFile
+      include Storage
+
       attr_accessor :temp_filename
 
       def initialize
         @temp_filename = File.join(Dir.tmpdir, 'pipakes')
         FileUtils.touch(@temp_filename)
       end
+
+      def inspect
+        "#<Rol::Storage::TempFile: #{@temp_filename}>"
+      end
+
+      private
 
       def jsonify(expense)
         hash = {
@@ -59,12 +67,6 @@ module Rol
           save_expense(e)
         end
       end
-
-      def inspect
-        "#<Rol::Storage::TempFile: #{@temp_filename}>"
-      end
-
-      private
 
       def clear_expenses
         File.delete(@temp_filename)

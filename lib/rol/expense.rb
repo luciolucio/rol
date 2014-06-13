@@ -39,20 +39,24 @@ module Rol
       @output_message_id = id
     end
 
+    def self.find(fields = {})
+      Rol.storage.find(fields)
+    end
+
     def save
-      Rol.storage.save_expense(self)
+      Rol.storage.save(self)
     end
 
     def ==(other)
       amount == other.amount &&
       description == other.description &&
       timestamp == other.timestamp &&
-      input_message_id == other.input_message_id
+      input_message_id == other.input_message_id &&
       output_message_id == other.output_message_id
     end
 
     def inspect
-      "#<Rol::Expense: #{@amount} at #{@description} " \
+      "#<Rol::Expense:0x#{object_id} #{@amount} at #{@description} " \
       "on #{@timestamp}. From message_id: #{@input_message_id}. " \
       "With output_message_id: #{@output_message_id}>"
     end

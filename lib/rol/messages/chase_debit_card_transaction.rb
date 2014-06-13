@@ -35,14 +35,13 @@ module Rol
       end
 
       def process
-        message_ids = Rol.storage.all.map { |t| t.input_message_id }
+        expense = Expense.find(input_message_id: @message.message_id)
+        return unless expense.nil?
 
-        return if message_ids.include?(@message.message_id)
+        new_expense = to_expense
 
-        ex = to_expense
-
-        deliver(ex, @message.user.recipient)
-        Rol.storage.save_expense(ex)
+        deliver(new_expense, @message.user.recipient)
+        new_expense.save
       end
 
       private

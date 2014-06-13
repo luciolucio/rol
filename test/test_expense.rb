@@ -60,6 +60,22 @@ class TestExpense < Test::Unit::TestCase
     assert_equal(ex.dup, ex)
   end
 
+  def test_should_not_be_equal_if_attributes_differ
+    ex = Rol::Expense.new do
+      amount 2
+      description 'Yo'
+      timestamp '1:13'
+      input_message_id 'id'
+      output_message_id 'oid'
+    end
+
+    ex2 = ex.dup
+    ex2.amount = 5
+    # TODO: Test for other attributes being different too
+
+    assert_not_equal(ex2, ex)
+  end
+
   def test_should_be_equal_if_all_attributes_nil
     ex = Rol::Expense.new do
       amount nil

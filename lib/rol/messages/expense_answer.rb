@@ -14,14 +14,13 @@ module Rol
       end
 
       def process
-        expenses = Rol.storage.all
-        output_ids = expenses.map { |e| e.output_message_id }
-        return unless output_ids.include? @message.in_reply_to
+        expense = Expense.find(output_message_id: @message.in_reply_to)
+        return if expense.nil?
 
         new_expense = @message.user.format.parse(@message.body.decoded)
-        update_expense(expenses, new_expense)
+        expense.amount = new_expense.amount
 
-        Rol.storage.save_all_expenses(expenses)
+        expense.save
 
         deliver(@message.user.recipient)
       end
@@ -30,14 +29,6 @@ module Rol
 
       def initialize(message)
         @message = message
-      end
-
-      def update_expense(expenses, new_expense)
-        expenses.each do |ex|
-          next unless ex.output_message_id == @message.in_reply_to
-
-          ex.amount = new_expense.amount
-        end
       end
 
       def deliver(recipient)
