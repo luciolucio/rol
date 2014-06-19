@@ -204,4 +204,18 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
 
     assert_not_nil(Rol::Storage::TestStorage.stored_expenses[0].output_message_id)
   end
+
+  def test_should_reprocess_if_deleted
+    message = new_mail('A $11.11 debit card transaction to COOL GUYS CO. on 11/11/2011 11:11:11 PM EST exceeded')
+    dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
+
+    dct.process
+    assert_not_nil(Rol::Storage::TestStorage.stored_expenses.first)
+
+    Rol::Storage::TestStorage.clear
+    assert_nil(Rol::Storage::TestStorage.stored_expenses.first)
+
+    dct.process
+    assert_not_nil(Rol::Storage::TestStorage.stored_expenses.first)
+  end
 end

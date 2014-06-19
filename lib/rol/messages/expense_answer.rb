@@ -16,6 +16,9 @@ module Rol
       def process
         expense = Expense.find(output_message_id: @message.in_reply_to)
         return if expense.nil?
+        return if expense.answer_ids.include?(@message.message_id)
+
+        expense.answer_ids << @message.message_id
 
         new_expense = @message.user.format.parse(@message.body.decoded)
         expense.amount = new_expense.amount

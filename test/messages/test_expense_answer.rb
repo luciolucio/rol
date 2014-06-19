@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+# rubocop:disable ClassLength
 
 require_relative '../../lib/rol'
 require 'test/unit'
@@ -34,6 +35,7 @@ class TestExpenseAnswer < Test::Unit::TestCase
     msg = Mail.new do
       from user.recipient
       user user
+      message_id SecureRandom.uuid
     end
 
     msg.body = msg.user.format.format(ex)
@@ -131,5 +133,19 @@ class TestExpenseAnswer < Test::Unit::TestCase
     assert_equal(2, expenses_after.size)
     assert_equal(84.11, expenses_after[0].amount)
     assert_equal(@amount, expenses_after[1].amount)
+  end
+
+  def test_should_not_duplicate_if_processing_the_same_message_twice
+    msg = new_mail
+    msg.in_reply_to @output_id
+
+    answer = Rol::Messages::ExpenseAnswer.from_message(msg)
+    answer.process
+
+    answer = Rol::Messages::ExpenseAnswer.from_message(msg)
+    answer.process
+
+    assert_equal(1, Mail::TestMailer.deliveries.size)
+    assert_equal(1, Rol::Storage::TestStorage.stored_expenses.size)
   end
 end

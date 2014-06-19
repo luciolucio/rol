@@ -30,7 +30,8 @@ module Rol
           description: expense.description,
           timestamp: expense.timestamp,
           input_message_id: expense.input_message_id,
-          output_message_id: expense.output_message_id
+          output_message_id: expense.output_message_id,
+          answer_ids: expense.answer_ids
         }
 
         hash.to_json
@@ -39,13 +40,16 @@ module Rol
       def unjsonify(line)
         json = JSON.parse(line)
 
-        Expense.new do
+        ex = Expense.new do
           amount json['amount']
           description json['description']
           timestamp json['timestamp']
           input_message_id json['input_message_id']
           output_message_id json['output_message_id']
         end
+
+        ex.answer_ids = json['answer_ids']
+        ex
       end
 
       def save_expense(e)

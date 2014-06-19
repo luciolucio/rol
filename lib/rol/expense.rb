@@ -5,6 +5,7 @@ module Rol
   # parsed from a Mail::Message
   class Expense
     def initialize(&block)
+      @answer_ids = []
       instance_eval(&block) if block_given?
     end
 
@@ -13,6 +14,7 @@ module Rol
     attr_accessor :timestamp
     attr_accessor :input_message_id
     attr_accessor :output_message_id
+    attr_accessor :answer_ids
 
     def amount(amt = nil)
       return @amount if amt.nil?
