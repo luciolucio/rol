@@ -47,6 +47,11 @@ module Rol
       @output_message_id = id
     end
 
+    def answer_ids(ids = nil)
+      return @answer_ids if ids.nil?
+      @answer_ids = ids
+    end
+
     def self.find(fields = {})
       Rol.storage.find(fields)
     end

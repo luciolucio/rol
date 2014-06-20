@@ -42,10 +42,9 @@ module Rol
 
         ex = Expense.new
         FIELDS.each do |f|
-          ex.send(f, json[f.to_s]) unless :answer_ids == f
+          ex.send(f, json[f.to_s])
         end
 
-        ex.answer_ids = json['answer_ids']
         ex
       end
 
