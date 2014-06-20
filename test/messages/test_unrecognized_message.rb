@@ -11,7 +11,7 @@ class TestUnrecognizedMessage < Test::Unit::TestCase
     expense = unrec.to_expense
 
     assert_equal(nil, expense.amount)
-    assert_equal(nil, expense.description)
+    assert_equal(nil, expense.store_name)
     assert_equal(nil, expense.timestamp)
   end
 

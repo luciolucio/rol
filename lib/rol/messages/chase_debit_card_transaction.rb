@@ -28,7 +28,7 @@ module Rol
 
         Expense.new do
           amount matches[1].to_f
-          description matches[2].strip
+          store_name matches[2].strip
           timestamp DateTime.parse(matches[3]).to_time.utc.iso8601
           input_message_id message_id
         end

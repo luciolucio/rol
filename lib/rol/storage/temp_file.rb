@@ -27,7 +27,7 @@ module Rol
       def jsonify(expense)
         hash = {
           amount: expense.amount,
-          description: expense.description,
+          store_name: expense.store_name,
           timestamp: expense.timestamp,
           input_message_id: expense.input_message_id,
           output_message_id: expense.output_message_id,
@@ -42,7 +42,7 @@ module Rol
 
         ex = Expense.new do
           amount json['amount']
-          description json['description']
+          store_name json['store_name']
           timestamp json['timestamp']
           input_message_id json['input_message_id']
           output_message_id json['output_message_id']

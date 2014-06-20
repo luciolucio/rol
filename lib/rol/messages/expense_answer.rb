@@ -3,7 +3,7 @@
 module Rol
   module Messages
     # The answer to an expense, such as a message
-    # to give an expense a new description
+    # to give an expense a new store name
     class ExpenseAnswer
       def self.from_message(message)
         if message.from[0] == message.user.recipient
@@ -22,7 +22,7 @@ module Rol
 
         new_expense = @message.user.format.parse(@message.body.decoded)
         expense.amount = new_expense.amount
-        expense.description = new_expense.description
+        expense.store_name = new_expense.store_name
 
         expense.save
 

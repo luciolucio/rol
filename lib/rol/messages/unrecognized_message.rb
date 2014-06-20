@@ -7,7 +7,7 @@ module Rol
       def to_expense
         Expense.new do
           amount nil
-          description nil
+          store_name nil
           timestamp nil
         end
       end

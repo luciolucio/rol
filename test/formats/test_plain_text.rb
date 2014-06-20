@@ -6,21 +6,21 @@ class TestPlainText < Test::Unit::TestCase
     simple: {
       expense: Rol::Expense.new do
                  amount 11.14
-                 description 'Delicious Food Inc.'
+                 store_name 'Delicious Food Inc.'
                  timestamp '2019-11-11T23:40:11Z'
                end,
       format: "Amount: 11.14\n" \
-              "Description: Delicious Food Inc.\n" \
+              "Store Name: Delicious Food Inc.\n" \
               'Timestamp: 2019-11-11T23:40:11Z'
     },
     round: {
       expense: Rol::Expense.new do
                  amount 5.00
-                 description 'Five moneys'
+                 store_name 'Five moneys'
                  timestamp '2015-11-11T11:11:11Z'
                end,
       format: "Amount: 5.00\n" \
-              "Description: Five moneys\n" \
+              "Store Name: Five moneys\n" \
               'Timestamp: 2015-11-11T11:11:11Z'
     }
   }

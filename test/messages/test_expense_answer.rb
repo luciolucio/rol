@@ -15,14 +15,14 @@ class TestExpenseAnswer < Test::Unit::TestCase
 
   EXPENSE_A = Rol::Expense.new do
     amount 37
-    description 'hi'
+    store_name 'hi'
     input_message_id SecureRandom.uuid
     output_message_id SecureRandom.uuid
   end
 
   EXPENSE_B = Rol::Expense.new do
     amount 84.11
-    description 'ho'
+    store_name 'ho'
     input_message_id SecureRandom.uuid
     output_message_id SecureRandom.uuid
   end
@@ -98,18 +98,18 @@ class TestExpenseAnswer < Test::Unit::TestCase
     assert_equal(EXPENSE_A.amount, expense_after.amount)
   end
 
-  def test_should_change_description_if_changed
-    new_description = 'Yoga Flame'
+  def test_should_change_store_name_if_changed
+    new_store_name = 'Yoga Flame'
 
     mail_a.body = mail_a.body.decoded
-               .gsub(/#{EXPENSE_A.description}/, new_description)
+               .gsub(/#{EXPENSE_A.store_name}/, new_store_name)
 
     answer = Rol::Messages::ExpenseAnswer.from_message(mail_a)
     answer.process
 
     expense_after = Rol::Storage::TestStorage.stored_expenses.last
 
-    assert_equal(new_description, expense_after.description)
+    assert_equal(new_store_name, expense_after.store_name)
   end
 
   def test_should_not_change_amout_of_a_different_expense

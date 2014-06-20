@@ -10,7 +10,7 @@ module Rol
     end
 
     attr_accessor :amount
-    attr_accessor :description
+    attr_accessor :store_name
     attr_accessor :timestamp
     attr_accessor :input_message_id
     attr_accessor :output_message_id
@@ -21,9 +21,9 @@ module Rol
       @amount = amt
     end
 
-    def description(desc = nil)
-      return @description if desc.nil?
-      @description = desc
+    def store_name(desc = nil)
+      return @store_name if desc.nil?
+      @store_name = desc
     end
 
     def timestamp(ts = nil)
@@ -51,14 +51,14 @@ module Rol
 
     def ==(other)
       amount == other.amount &&
-      description == other.description &&
+      store_name == other.store_name &&
       timestamp == other.timestamp &&
       input_message_id == other.input_message_id &&
       output_message_id == other.output_message_id
     end
 
     def inspect
-      "#<Rol::Expense:0x#{object_id} #{@amount} at #{@description} " \
+      "#<Rol::Expense:0x#{object_id} #{@amount} at #{@store_name} " \
       "on #{@timestamp}. From message_id: #{@input_message_id}. " \
       "With output_message_id: #{@output_message_id}>"
     end

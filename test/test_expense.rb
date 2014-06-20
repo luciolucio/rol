@@ -8,12 +8,12 @@ class TestExpense < Test::Unit::TestCase
   def test_should_create_with_parameters_in_constructor
     e = Rol::Expense.new do
       amount 10
-      description 'Hi'
+      store_name 'Hi'
       timestamp '10:15'
     end
 
     assert_equal(10, e.amount)
-    assert_equal('Hi', e.description)
+    assert_equal('Hi', e.store_name)
     assert_equal('10:15', e.timestamp)
   end
 
@@ -31,7 +31,7 @@ class TestExpense < Test::Unit::TestCase
     e = Rol::Expense.new
 
     assert_equal(nil, e.amount)
-    assert_equal(nil, e.description)
+    assert_equal(nil, e.store_name)
     assert_equal(nil, e.timestamp)
     assert_equal(nil, e.input_message_id)
     assert_equal(nil, e.output_message_id)
@@ -51,7 +51,7 @@ class TestExpense < Test::Unit::TestCase
   def test_should_be_equal_if_equal_attributes
     ex = Rol::Expense.new do
       amount 2
-      description 'Yo'
+      store_name 'Yo'
       timestamp '1:13'
       input_message_id 'id'
       output_message_id 'oid'
@@ -63,7 +63,7 @@ class TestExpense < Test::Unit::TestCase
   def test_should_not_be_equal_if_attributes_differ
     ex = Rol::Expense.new do
       amount 2
-      description 'Yo'
+      store_name 'Yo'
       timestamp '1:13'
       input_message_id 'id'
       output_message_id 'oid'
@@ -79,7 +79,7 @@ class TestExpense < Test::Unit::TestCase
   def test_should_be_equal_if_all_attributes_nil
     ex = Rol::Expense.new do
       amount nil
-      description nil
+      store_name nil
       timestamp nil
       input_message_id nil
       output_message_id nil
