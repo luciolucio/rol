@@ -188,7 +188,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     dct = Rol::Messages::ChaseDebitCardTransaction.from_message(message)
     dct.process
 
-    message2 = message.dup # Another message, same id
+    message2 = message.clone # Another message, same id
     dct2 = Rol::Messages::ChaseDebitCardTransaction.from_message(message2)
     dct2.process
 

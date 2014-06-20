@@ -20,11 +20,11 @@ module Rol
       private
 
       def save_expense(e)
-        Rol::Storage::TestStorage.stored_expenses << e.dup
+        Rol::Storage::TestStorage.stored_expenses << e.clone
       end
 
       def all
-        Rol::Storage::TestStorage.stored_expenses.dup
+        Rol::Storage::TestStorage.stored_expenses.clone
       end
 
       def save_all_expenses(expenses)

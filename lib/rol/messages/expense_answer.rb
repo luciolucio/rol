@@ -22,6 +22,7 @@ module Rol
 
         new_expense = @message.user.format.parse(@message.body.decoded)
         expense.amount = new_expense.amount
+        expense.description = new_expense.description
 
         expense.save
 

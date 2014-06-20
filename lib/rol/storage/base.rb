@@ -28,7 +28,7 @@ module Rol
         end
         # rubocop: enable UnusedBlockArgument
 
-        return ex.dup if match
+        return ex.clone if match
       end
 
       nil

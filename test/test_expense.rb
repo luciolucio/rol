@@ -57,7 +57,7 @@ class TestExpense < Test::Unit::TestCase
       output_message_id 'oid'
     end
 
-    assert_equal(ex.dup, ex)
+    assert_equal(ex.clone, ex)
   end
 
   def test_should_not_be_equal_if_attributes_differ
@@ -69,7 +69,7 @@ class TestExpense < Test::Unit::TestCase
       output_message_id 'oid'
     end
 
-    ex2 = ex.dup
+    ex2 = ex.clone
     ex2.amount = 5
     # TODO: Test for other attributes being different too
 
@@ -85,6 +85,6 @@ class TestExpense < Test::Unit::TestCase
       output_message_id nil
     end
 
-    assert_equal(ex.dup, ex)
+    assert_equal(ex.clone, ex)
   end
 end

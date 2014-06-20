@@ -40,7 +40,7 @@ class TestMail < Test::Unit::TestCase
     end
 
     Mail::TestMailer.deliveries.clear
-    Mail::TestRetriever.emails = [@email.dup]
+    Mail::TestRetriever.emails = [@email.clone]
   end
 
   def test_should_retrieve_using_method_from_user
