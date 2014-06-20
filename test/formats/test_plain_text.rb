@@ -6,21 +6,25 @@ class TestPlainText < Test::Unit::TestCase
     simple: {
       expense: Rol::Expense.new do
                  amount 11.14
+                 description 'A Chase Debit Card Transaction'
                  store_name 'Delicious Food Inc.'
                  timestamp '2019-11-11T23:40:11Z'
                end,
       format: "Amount: 11.14\n" \
               "Store Name: Delicious Food Inc.\n" \
+              "Description: A Chase Debit Card Transaction\n" \
               'Timestamp: 2019-11-11T23:40:11Z'
     },
     round: {
       expense: Rol::Expense.new do
                  amount 5.00
+                 description 'A Round Chase Debit Card Transaction'
                  store_name 'Five moneys'
                  timestamp '2015-11-11T11:11:11Z'
                end,
       format: "Amount: 5.00\n" \
               "Store Name: Five moneys\n" \
+              "Description: A Round Chase Debit Card Transaction\n" \
               'Timestamp: 2015-11-11T11:11:11Z'
     }
   }

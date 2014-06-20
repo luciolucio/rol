@@ -24,15 +24,15 @@ module Rol
 
       private
 
+      FIELDS = [:amount, :store_name, :description,
+                :timestamp, :input_message_id,
+                :output_message_id, :answer_ids]
+
       def jsonify(expense)
-        hash = {
-          amount: expense.amount,
-          store_name: expense.store_name,
-          timestamp: expense.timestamp,
-          input_message_id: expense.input_message_id,
-          output_message_id: expense.output_message_id,
-          answer_ids: expense.answer_ids
-        }
+        hash = {}
+        FIELDS.each do |f|
+          hash[f] = expense.send(f)
+        end
 
         hash.to_json
       end
@@ -40,12 +40,9 @@ module Rol
       def unjsonify(line)
         json = JSON.parse(line)
 
-        ex = Expense.new do
-          amount json['amount']
-          store_name json['store_name']
-          timestamp json['timestamp']
-          input_message_id json['input_message_id']
-          output_message_id json['output_message_id']
+        ex = Expense.new
+        FIELDS.each do |f|
+          ex.send(f, json[f.to_s]) unless :answer_ids == f
         end
 
         ex.answer_ids = json['answer_ids']

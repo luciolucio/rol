@@ -29,6 +29,7 @@ module Rol
         Expense.new do
           amount matches[1].to_f
           store_name matches[2].strip
+          description 'A Chase Debit Card Transaction'
           timestamp DateTime.parse(matches[3]).to_time.utc.iso8601
           input_message_id message_id
         end
