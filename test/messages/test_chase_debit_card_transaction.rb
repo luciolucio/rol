@@ -10,7 +10,7 @@
 #      A $80.00 ATM withdrawal on 12/27/2013 4:13:32 PM EST exceeded your $0.00 Alert limit.
 #
 #      If you have any questions about this transaction, please call 1-877-CHASEPC",
-#      amount: 80.00, store_name: 'ATM withdrawal', timestamp: '2013-12-27T21:13:32Z')
+#      amount: 80.00, merchant_name: 'ATM withdrawal', timestamp: '2013-12-27T21:13:32Z')
 #
 #
 #     2. External transfer
@@ -19,7 +19,7 @@
 #     A $54.47 external transfer to ROCKYMTN/PACIFIC POW on 12/27/2013 2:05:13 AM EST exceeded your Alert setting.
 #
 #     If you have questions about this transaction, please log on to chase.com or call 1-877-CHASEPC (1-877-242-7372).",
-#     amount: 54.47, store_name: 'ROCKYMTN/PACIFIC POW', timestamp: '2013-12-27T07:05:13Z')
+#     amount: 54.47, merchant_name: 'ROCKYMTN/PACIFIC POW', timestamp: '2013-12-27T07:05:13Z')
 #
 #
 #     3. Bad format (look ma, no dollar sign!)
@@ -28,7 +28,7 @@
 #     A 54.47 external transfer to ROCKYMTN/PACIFIC POW on 12/27/2013 2:05:13 AM EST exceeded your Alert setting.
 #
 #     If you have questions about this transaction, please log on to chase.com or call 1-877-CHASEPC (1-877-242-7372).",
-#     amount: 0, store_name: '', timestamp: '')
+#     amount: 0, merchant_name: '', timestamp: '')
 
 require_relative '../../lib/rol'
 require 'test/unit'
@@ -81,7 +81,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     expense = dct.to_expense
 
     assert_equal(3.76, expense.amount)
-    assert_equal('PIER 49 PIZZA - SALT', expense.store_name)
+    assert_equal('PIER 49 PIZZA - SALT', expense.merchant_name)
     assert_equal('2013-12-24T19:13:48Z', expense.timestamp)
   end
 
@@ -96,7 +96,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     expense = dct.to_expense
 
     assert_equal(30.98, expense.amount)
-    assert_equal('STAPLES,INC', expense.store_name)
+    assert_equal('STAPLES,INC', expense.merchant_name)
     assert_equal('2013-12-28T00:30:07Z', expense.timestamp)
   end
 
@@ -138,7 +138,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     saved_expense = Rol::Storage::TestStorage.stored_expenses.first
 
     assert_equal(3.76, saved_expense.amount)
-    assert_equal('PIER 49 PIZZA - SALT', saved_expense.store_name)
+    assert_equal('PIER 49 PIZZA - SALT', saved_expense.merchant_name)
     assert_equal('2013-12-24T19:13:48Z', saved_expense.timestamp)
   end
 

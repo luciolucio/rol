@@ -24,7 +24,7 @@ module Rol
 
       private
 
-      FIELDS = [:amount, :store_name, :description,
+      FIELDS = [:amount, :merchant_name, :description,
                 :timestamp, :input_message_id,
                 :output_message_id, :answer_ids, :tags]
 

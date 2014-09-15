@@ -8,11 +8,11 @@ class TestPlainText < Test::Unit::TestCase
                  amount 11.14
                  description 'A Chase Debit Card Transaction'
                  tags [ 'food' ]
-                 store_name 'Delicious Food Inc.'
+                 merchant_name 'Delicious Food Inc.'
                  timestamp '2019-11-11T23:40:11Z'
                end,
       format: "Amount: 11.14\n" \
-              "Store Name: Delicious Food Inc.\n" \
+              "Merchant Name: Delicious Food Inc.\n" \
               "Description: A Chase Debit Card Transaction\n" \
               "Tags: food\n" \
               'Timestamp: 2019-11-11T23:40:11Z'
@@ -21,11 +21,11 @@ class TestPlainText < Test::Unit::TestCase
       expense: Rol::Expense.new do
                  amount 5.00
                  description 'A Round Chase Debit Card Transaction'
-                 store_name 'Five moneys'
+                 merchant_name 'Five moneys'
                  timestamp '2015-11-11T11:11:11Z'
                end,
       format: "Amount: 5.00\n" \
-              "Store Name: Five moneys\n" \
+              "Merchant Name: Five moneys\n" \
               "Description: A Round Chase Debit Card Transaction\n" \
               "Tags: \n" \
               'Timestamp: 2015-11-11T11:11:11Z'

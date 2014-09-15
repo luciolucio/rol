@@ -3,9 +3,9 @@
 module Rol
   module Messages
     # The answer to an expense, such as a message
-    # to give an expense a new store name
+    # to give an expense a new merchant name
     class ExpenseAnswer
-      CHANGEABLE_FIELDS = [:amount, :description, :tags, :store_name]
+      CHANGEABLE_FIELDS = [:amount, :description, :tags, :merchant_name]
 
       def self.from_message(message)
         if message.from[0] == message.user.recipient
