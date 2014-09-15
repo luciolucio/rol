@@ -64,6 +64,30 @@ class TestUser < Test::Unit::TestCase
     assert_equal(@password, user.retriever_method.settings[:password])
   end
 
+  def test_should_create_with_gmail_delivery
+    user = Rol::User.new do
+      delivery_method :gmail, user_name: @user_name,
+                              password: @password
+    end
+
+    assert_equal(Mail::SMTP, user.delivery_method.class)
+    assert_equal('smtp.gmail.com', user.delivery_method.settings[:address])
+    assert_equal(587, user.delivery_method.settings[:port])
+    assert_equal('gmail.com', user.delivery_method.settings[:domain])
+    assert_equal(@user_name, user.delivery_method.settings[:user_name])
+    assert_equal(@password, user.delivery_method.settings[:password])
+    assert_equal('plain', user.delivery_method.settings[:authentication])
+    assert_equal(true, user.delivery_method.settings[:enable_starttls_auto])
+  end
+
+  def test_should_create_with_test_delivery
+    user = Rol::User.new do
+      delivery_method :test
+    end
+
+    assert_equal(Mail::TestMailer, user.delivery_method.class)
+  end
+
   def test_should_create_with_email_format_option
     user = Rol::User.new do
       format :plain_text

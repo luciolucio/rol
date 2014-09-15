@@ -28,6 +28,24 @@ module Rol
       end
     end
 
+    def delivery_method(method = nil, settings = {})
+      return @delivery_method if @delivery_method && method.nil?
+
+      if :gmail == method
+        settings = settings.merge(
+          address:              'smtp.gmail.com',
+          port:                 587,
+          domain:               'gmail.com',
+          authentication:       'plain',
+          enable_starttls_auto: true)
+
+        @delivery_method = Mail::SMTP.new(settings)
+      else
+        @delivery_method = Mail::Configuration.instance
+          .lookup_delivery_method(method).new(settings)
+      end
+    end
+
     def format(format = nil)
       return @format if format.nil?
       @format = Rol::Format::PlainText.new
