@@ -8,11 +8,12 @@ Rol is not very useful if you do not bank online or do not use credit and debit 
 
 ## Roadmap
 
-* Read email alert from Chase, parse and output something to standard output - DONE
-* Start parsing dates - DONE
-* Save parsed data to a text file in JSON format - DONE
-* Start giving expenses an ID that can be traced back to the message it came from - DONE
-* Write more milestones
+* Put deliver_method in the user object
+* Save the original message body in the Expense object
+* Fix the problem where &lt;br&gt; tags appear when the description is changed
+* Archive the processed message
+* Implement Amex emails
+* Implement other relevant Chase emails
 
 ## Usage
 
