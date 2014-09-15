@@ -26,7 +26,7 @@ module Rol
 
       FIELDS = [:amount, :store_name, :description,
                 :timestamp, :input_message_id,
-                :output_message_id, :answer_ids]
+                :output_message_id, :answer_ids, :tags]
 
       def jsonify(expense)
         hash = {}

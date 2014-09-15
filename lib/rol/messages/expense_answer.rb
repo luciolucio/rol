@@ -5,6 +5,8 @@ module Rol
     # The answer to an expense, such as a message
     # to give an expense a new store name
     class ExpenseAnswer
+      CHANGEABLE_FIELDS = [:amount, :description, :tags, :store_name]
+
       def self.from_message(message)
         if message.from[0] == message.user.recipient
           return ExpenseAnswer.new(message)
@@ -21,9 +23,9 @@ module Rol
         expense.answer_ids << @message.message_id
 
         new_expense = @message.user.format.parse(@message.body.decoded)
-        expense.amount = new_expense.amount
-        expense.description = new_expense.description
-        expense.store_name = new_expense.store_name
+        CHANGEABLE_FIELDS.each do |f|
+          expense.send(format("%s=", f), new_expense.send(f))
+        end
 
         expense.save
 
