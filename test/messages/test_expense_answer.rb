@@ -98,6 +98,20 @@ class TestExpenseAnswer < Test::Unit::TestCase
     assert_equal(EXPENSE_A.amount, expense_after.amount)
   end
 
+  def test_should_change_tags_if_changed
+    new_tags = ['a', 'b']
+
+    mail_a.body = mail_a.body.decoded
+               .gsub(/Tags: /, Kernel.format("Tags: %s", new_tags.join(' ')))
+
+    answer = Rol::Messages::ExpenseAnswer.from_message(mail_a)
+    answer.process
+
+    expense_after = Rol::Storage::TestStorage.stored_expenses.last
+
+    assert_equal(new_tags, expense_after.tags)
+  end
+
   def test_should_change_merchant_name_if_changed
     new_merchant_name = 'Yoga Flame'
 
