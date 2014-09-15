@@ -8,7 +8,7 @@ Rol is not very useful if you do not bank online or do not use credit and debit 
 
 ## Roadmap
 
-* Put deliver_method in the user object
+* Put delivery_method in the user object
 * Save the original message body in the Expense object
 * Fix the problem where &lt;br&gt; tags appear when the description is changed
 * Archive the processed message
