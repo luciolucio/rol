@@ -99,10 +99,10 @@ class TestExpenseAnswer < Test::Unit::TestCase
   end
 
   def test_should_change_tags_if_changed
-    new_tags = ['a', 'b']
+    new_tags = %w(a b)
 
     mail_a.body = mail_a.body.decoded
-               .gsub(/Tags: /, Kernel.format("Tags: %s", new_tags.join(' ')))
+               .gsub(/Tags: /, Kernel.format('Tags: %s', new_tags.join(' ')))
 
     answer = Rol::Messages::ExpenseAnswer.from_message(mail_a)
     answer.process

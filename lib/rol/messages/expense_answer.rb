@@ -24,7 +24,7 @@ module Rol
 
         new_expense = @message.user.format.parse(@message.body.decoded)
         CHANGEABLE_FIELDS.each do |f|
-          expense.send(format("%s=", f), new_expense.send(f))
+          expense.send(format('%s=', f), new_expense.send(f))
         end
 
         expense.save

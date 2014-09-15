@@ -7,7 +7,7 @@ class TestPlainText < Test::Unit::TestCase
       expense: Rol::Expense.new do
                  amount 11.14
                  description 'A Chase Debit Card Transaction'
-                 tags [ 'food' ]
+                 tags ['food']
                  merchant_name 'Delicious Food Inc.'
                  timestamp '2019-11-11T23:40:11Z'
                end,

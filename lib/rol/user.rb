@@ -32,12 +32,7 @@ module Rol
       return @delivery_method if @delivery_method && method.nil?
 
       if :gmail == method
-        settings = settings.merge(
-          address:              'smtp.gmail.com',
-          port:                 587,
-          domain:               'gmail.com',
-          authentication:       'plain',
-          enable_starttls_auto: true)
+        settings = delivery_options(settings)
 
         @delivery_method = Mail::SMTP.new(settings)
       else
@@ -49,6 +44,17 @@ module Rol
     def format(format = nil)
       return @format if format.nil?
       @format = Rol::Format::PlainText.new
+    end
+
+    private
+
+    def delivery_options(settings)
+      settings.merge(
+        address:              'smtp.gmail.com',
+        port:                 587,
+        domain:               'gmail.com',
+        authentication:       'plain',
+        enable_starttls_auto: true)
     end
   end
 end

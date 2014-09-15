@@ -4,6 +4,10 @@ module Rol
   # An Expense represents an expense
   # parsed from a Mail::Message
   class Expense
+    FIELDS = [:amount, :merchant_name, :description,
+              :tags, :timestamp, :input_message_id,
+              :output_message_id]
+
     def initialize(&block)
       @answer_ids = []
       @tags = []
@@ -68,13 +72,13 @@ module Rol
     end
 
     def ==(other)
-      amount == other.amount &&
-      merchant_name == other.merchant_name &&
-      description == other.description &&
-      tags == other.tags &&
-      timestamp == other.timestamp &&
-      input_message_id == other.input_message_id &&
-      output_message_id == other.output_message_id
+      is_equals = true
+
+      FIELDS.each do |f|
+        is_equals &&= send(f) == other.send(f)
+      end
+
+      is_equals
     end
 
     def inspect

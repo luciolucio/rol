@@ -70,6 +70,10 @@ class TestUser < Test::Unit::TestCase
                               password: @password
     end
 
+    check_gmail_delivery_settings(user)
+  end
+
+  def check_gmail_delivery_settings(user)
     assert_equal(Mail::SMTP, user.delivery_method.class)
     assert_equal('smtp.gmail.com', user.delivery_method.settings[:address])
     assert_equal(587, user.delivery_method.settings[:port])
