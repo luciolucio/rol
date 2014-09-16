@@ -53,16 +53,23 @@ module Rol
 
       def deliver(expense, recipient)
         format = @message.user.format
+        method = @message.user.delivery_method
+        settings = @message.user.delivery_settings
 
-        msg = Mail.new do
+        msg = create_message(expense, recipient, format, method, settings)
+        msg.deliver!
+
+        expense.output_message_id = msg.message_id
+      end
+
+      def create_message(expense, recipient, format, method, settings)
+        Mail.new do
           to recipient
           from 'person@example.com'
           subject 'Hi there'
           body format.format(expense)
+          delivery_method method, settings
         end
-
-        msg.deliver!
-        expense.output_message_id = msg.message_id
       end
     end
   end

@@ -39,11 +39,15 @@ module Rol
       end
 
       def deliver(recipient)
+        method = @message.user.delivery_method
+        settings = @message.user.delivery_settings
+
         Mail.deliver do
           from 'yoga@fire.biz'
           to recipient
           subject 'Hi'
           body 'ok'
+          delivery_method method, settings
         end
       end
     end

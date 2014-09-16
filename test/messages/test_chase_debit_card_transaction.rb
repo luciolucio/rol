@@ -37,7 +37,8 @@ require 'test/unit'
 class TestChaseDebitCardTransaction < Test::Unit::TestCase
   def setup
     Mail.defaults do
-      delivery_method :test
+      # set :smtp but test againt :test (from the user)
+      delivery_method :smtp
     end
 
     Mail::TestMailer.deliveries.clear
@@ -61,16 +62,17 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
       message_id id
     end
   end
+  # rubocop:enable SingleSpaceBeforeFirstArg
 
   def create_user
     @recipient = recipient = 'mail@somewhere.com'
 
     Rol::User.new do
       recipient recipient
-      format    :plain_text
+      format :plain_text
+      delivery_method :test
     end
   end
-  # rubocop:enable SingleSpaceBeforeFirstArg
 
   def test_should_parse_debit_card_transaction
     message = new_mail('This is an Alert to help manage your account ending in 6503.

@@ -74,14 +74,14 @@ class TestUser < Test::Unit::TestCase
   end
 
   def check_gmail_delivery_settings(user)
-    assert_equal(Mail::SMTP, user.delivery_method.class)
-    assert_equal('smtp.gmail.com', user.delivery_method.settings[:address])
-    assert_equal(587, user.delivery_method.settings[:port])
-    assert_equal('gmail.com', user.delivery_method.settings[:domain])
-    assert_equal(@user_name, user.delivery_method.settings[:user_name])
-    assert_equal(@password, user.delivery_method.settings[:password])
-    assert_equal('plain', user.delivery_method.settings[:authentication])
-    assert_equal(true, user.delivery_method.settings[:enable_starttls_auto])
+    assert_equal(:smtp, user.delivery_method)
+    assert_equal('smtp.gmail.com', user.delivery_settings[:address])
+    assert_equal(587, user.delivery_settings[:port])
+    assert_equal('gmail.com', user.delivery_settings[:domain])
+    assert_equal(@user_name, user.delivery_settings[:user_name])
+    assert_equal(@password, user.delivery_settings[:password])
+    assert_equal('plain', user.delivery_settings[:authentication])
+    assert_equal(true, user.delivery_settings[:enable_starttls_auto])
   end
 
   def test_should_create_with_test_delivery
@@ -89,7 +89,8 @@ class TestUser < Test::Unit::TestCase
       delivery_method :test
     end
 
-    assert_equal(Mail::TestMailer, user.delivery_method.class)
+    assert_equal(:test, user.delivery_method)
+    assert_equal({}, user.delivery_settings)
   end
 
   def test_should_create_with_email_format_option

@@ -3,7 +3,7 @@
 module Rol
   # A user in the system
   class User
-    attr_writer :recipient
+    attr_accessor :recipient, :delivery_settings
 
     def initialize(&block)
       instance_eval(&block) if block_given?
@@ -32,12 +32,11 @@ module Rol
       return @delivery_method if @delivery_method && method.nil?
 
       if :gmail == method
-        settings = delivery_options(settings)
-
-        @delivery_method = Mail::SMTP.new(settings)
+        @delivery_method = :smtp
+        @delivery_settings = delivery_options(settings)
       else
-        @delivery_method = Mail::Configuration.instance
-          .lookup_delivery_method(method).new(settings)
+        @delivery_method = method
+        @delivery_settings = settings
       end
     end
 

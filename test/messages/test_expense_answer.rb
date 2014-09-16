@@ -11,6 +11,7 @@ class TestExpenseAnswer < Test::Unit::TestCase
   USER = Rol::User.new do
     recipient 'someone@example.com'
     format :plain_text
+    delivery_method :test
   end
 
   EXPENSE_A = Rol::Expense.new do
@@ -29,7 +30,8 @@ class TestExpenseAnswer < Test::Unit::TestCase
 
   def setup
     Mail.defaults do
-      delivery_method :test
+      # set :smtp but test against :test (from user)
+      delivery_method :smtp
     end
 
     Rol.config do

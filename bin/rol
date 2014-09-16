@@ -73,30 +73,13 @@ def parse_arguments
   [options[:username], options[:password], options[:recipient]]
 end
 
-def delivery_options(username, password)
-  { address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'gmail.com',
-    user_name:            username,
-    password:             password,
-    authentication:       'plain',
-    enable_starttls_auto: true }
-end
-
-def setup(username, password)
-  Mail.defaults do
-    delivery_method :smtp, delivery_options(username, password)
-  end
-
-  Rol.config do
-    storage :temp_file
-  end
-end
-
 def create_user(username, password, recipient)
   Rol::User.new do
     retriever_method :gmail, user_name: username,
                              password:  password
+
+    delivery_method :gmail, user_name: username,
+                            password:  password
 
     recipient recipient
     format :plain_text
@@ -104,8 +87,11 @@ def create_user(username, password, recipient)
 end
 
 def main
+  Rol.config do
+    storage :temp_file
+  end
+
   username, password, recipient = parse_arguments
-  setup(username, password)
   user = create_user(username, password, recipient)
 
   Mail.for(user, what: :last, count: 10).each do |m|
