@@ -46,7 +46,7 @@ module Rol
           from 'yoga@fire.biz'
           to recipient
           subject 'Hi'
-          body 'ok'
+          text_part { body 'ok' }
           delivery_method method, settings
         end
       end

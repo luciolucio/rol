@@ -180,7 +180,7 @@ class TestChaseDebitCardTransaction < Test::Unit::TestCase
     dct.process
 
     first = Mail::TestMailer.deliveries.first
-    assert_equal(message.user.format.format(ex), first.body.decoded)
+    assert_equal(message.user.format.format(ex), first.text_part.body.decoded)
   end
 
   def test_should_not_process_message_if_id_exists_in_storage

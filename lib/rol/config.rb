@@ -9,6 +9,7 @@ module Rol
       # TODO: Put the default types here
       @message_types = [
         Rol::Messages::ChaseDebitCardTransaction,
+        Rol::Messages::AmericanExpressLargePurchase,
         Rol::Messages::ExpenseAnswer
       ]
 
